@@ -5,11 +5,33 @@
     <div class="row">
         这里是一个大图
     </div>
-    <div id="active-row" class="row">
-        <div></div>
+    <div id="active-row" v-for="item in result.actives">
+       
+            <div class="col-lg-6">
+                <img src="" />
+            </div>
+            <div class="col-lg-6">
+
+            </div>
+   
+    </div>
+
+    <div>
+        <span v-bind="{{result.pageCount}}"></span>
     </div>
 </div>
 @section scripts{
-
+    <script>
+        //Vue.component("active-row", {
+        //    props: ["todo"],
+        //    template: '<tr><td>{{todo.ID}}</td><td>{{todo.Name}}</td></tr>'
+        //})
+        $.get("actives", {pageindex:1}, function (result) {
+            new Vue({
+                el: "#active-row",
+                data: { result: result }
+            })
+        })
+    </script>
 }
 

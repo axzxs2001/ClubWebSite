@@ -37,9 +37,11 @@ namespace ClubWebSite.Controllers
         /// </summary>
         /// <param name="intexPage">页数</param>
         /// <returns></returns>
-        public JsonResult GetActives(int intexPage)
+        [HttpGet("actives/{pageindex}")]
+        public JsonResult GetActives(int pageindex)
         {
-            var result = _acctiveResitory.GetActivePage(intexPage, 10);
+            var result = _acctiveResitory.GetActivePage(pageindex, 10);
+    
             return new JsonResult(result, new Newtonsoft.Json.JsonSerializerSettings()
             {
                 Formatting = Newtonsoft.Json.Formatting.None
