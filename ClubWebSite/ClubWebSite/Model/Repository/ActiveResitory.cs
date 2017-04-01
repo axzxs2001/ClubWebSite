@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 namespace Asp.NetCore_WebPage.Model.Repository
 {
     /// <summary>
-    /// 权限仓储类
+    /// 活动仓储类
     /// </summary>
     public class ActiveResitory : IActiveResitory
     {
@@ -27,11 +27,33 @@ namespace Asp.NetCore_WebPage.Model.Repository
         /// <summary>
         /// 添加实体
         /// </summary>
-        /// <param name="active"></param>
+        /// <param name="active">活动实体</param>
         /// <returns></returns>
         public bool AddActive(Active active)
         {
             return _dataHandle.AddEntity(active);
+        }
+        /// <summary>
+        /// 获取页数和总页数
+        /// </summary>
+        /// <param name="pageIndex">页数索引</param>
+        /// <param name="countPerPage">每页记录数</param>
+        /// <returns></returns>
+        public (List<Active> actives, int pageCount) GetActivePage(int pageIndex, int countPerPage)
+        {
+            var result = _dataHandle.GetPageEntities<Active>(pageIndex, countPerPage);
+            //总行数转成页数
+            var pageCount = Convert.ToInt32(Math.Ceiling(result.count / Convert.ToDouble(countPerPage)));
+            return (result.entities, pageCount);
+        }
+        /// <summary>
+        /// 获取单个活动
+        /// </summary>
+        /// <param name="id">编号</param>
+        /// <returns></returns>
+        public Active GetActive(string id)
+        {
+           return  _dataHandle.GetEntity<Active>(id);
         }
 
     }

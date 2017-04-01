@@ -71,15 +71,15 @@ namespace ClubWebSite.Model
         /// <param name="id">实体ID</typeparam>
         /// <param name="type">实体类型</param>
         /// <returns></returns>
-        public EntityObject GetEntity(string id, Type type)
+        public T GetEntity<T>(string id) where T : EntityObject
         {
-            var typeName = type.Name;
+            var typeName = typeof(T).Name;
             if (!_data.Keys.Contains(typeName))
             {
-                var dic = Read(type);
+                var dic = Read(typeof(T));
                 _data.Add(typeName, dic);
             }
-            return _data[typeName][id];
+            return _data[typeName][id] as T;
         }
         /// <summary>
         /// 分页查询
@@ -88,15 +88,22 @@ namespace ClubWebSite.Model
         /// <param name="countPerPage">每页记数数</param>
         /// <param name="type">实体类型</param>
         /// <returns></returns>
-        public (List<EntityObject> entities, int count) GetPageEntities(int pageIndex, int countPerPage, Type type)
+        public (List<T> entities, int count) GetPageEntities<T>(int pageIndex, int countPerPage) where  T:EntityObject
         {
-            var typeName = type.Name;
+            var typeName = typeof(T).Name;
             if (!_data.Keys.Contains(typeName))
             {
-                var dic = Read(type);
+                var dic = Read(typeof(T));
                 _data.Add(typeName, dic);
             }
-            return (_data[typeName].Values.Skip((pageIndex - 1) * countPerPage).Take(countPerPage).ToList(), _data[typeName].Count);
+            var entityList = _data[typeName].Values.Skip((pageIndex - 1) * countPerPage).Take(countPerPage).ToList();
+            //转成具体的子类
+            var list = new List<T>();
+            foreach(T t in entityList)
+            {
+                list.Add(t);
+            }
+            return (list, _data[typeName].Count);
         }
 
         /// <summary>

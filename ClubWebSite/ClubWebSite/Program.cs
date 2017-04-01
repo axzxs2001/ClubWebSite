@@ -23,12 +23,4 @@ namespace ClubWebSite
             host.Run();
         }
     }
-
-    public class AA
-    {
-        public string s
-        { get; set; }
-        public string i
-        { get; set; }
-    }
 }

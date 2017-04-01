@@ -21,6 +21,12 @@ namespace ClubWebSite.Model.Entity
         /// </summary>
         public string Password
         { get; set; }
+
+        /// <summary>
+        /// 用户名称
+        /// </summary>
+        public string Name
+        { get; set; }
         
     }
 }

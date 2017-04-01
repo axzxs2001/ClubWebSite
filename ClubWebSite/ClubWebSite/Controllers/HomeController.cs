@@ -3,11 +3,27 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
+using Asp.NetCore_WebPage.Model.Repository;
 
 namespace ClubWebSite.Controllers
 {
+    /// <summary>
+    /// home控制类
+    /// </summary>
     public class HomeController : Controller
     {
+        /// <summary>
+        /// 活动仓储对象
+        /// </summary>
+        IActiveResitory _acctiveResitory;
+        /// <summary>
+        /// home构造
+        /// </summary>
+        /// <param name="acctiveResitory"></param>
+        public HomeController(IActiveResitory acctiveResitory)
+        {
+            _acctiveResitory = acctiveResitory;
+        }
         /// <summary>
         /// 列表
         /// </summary>
@@ -17,13 +33,26 @@ namespace ClubWebSite.Controllers
             return View();
         }
         /// <summary>
+        /// 获取分页活动
+        /// </summary>
+        /// <param name="intexPage">页数</param>
+        /// <returns></returns>
+        public JsonResult GetActives(int intexPage)
+        {
+            var result = _acctiveResitory.GetActivePage(intexPage, 10);
+            return new JsonResult(result, new Newtonsoft.Json.JsonSerializerSettings()
+            {
+                Formatting = Newtonsoft.Json.Formatting.None
+            });
+        }
+        /// <summary>
         /// 详细信息
         /// </summary>
         /// <returns></returns>
         [HttpGet("item/{id}")]
         public IActionResult Details(int id)
         {
-            ViewData["Message"] = "Your application description page."+id;
+            ViewData["Message"] = "Your application description page." + id;
 
             return View();
         }
