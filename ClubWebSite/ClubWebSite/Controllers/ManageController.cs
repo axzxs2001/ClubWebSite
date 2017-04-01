@@ -6,13 +6,15 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace ClubWebSite.Controllers
 {
-    public class HomeController : Controller
+    
+    public class ManageController : Controller
     {
         /// <summary>
-        /// 列表
+        /// 添加活动
         /// </summary>
         /// <returns></returns>
-        public IActionResult Index()
+        [HttpGet("add")]
+        public IActionResult AddActive()
         {
             return View();
         }
@@ -20,17 +22,14 @@ namespace ClubWebSite.Controllers
         /// 详细信息
         /// </summary>
         /// <returns></returns>
-        [HttpGet("item/{id}")]
-        public IActionResult Details(int id)
+        [HttpPost("add")]
+        public IActionResult AddActive(int id)
         {
             ViewData["Message"] = "Your application description page."+id;
 
             return View();
         }
 
-        public IActionResult Error()
-        {
-            return View();
-        }
+       
     }
 }

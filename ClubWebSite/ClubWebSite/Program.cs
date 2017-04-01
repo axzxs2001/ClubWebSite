@@ -10,7 +10,8 @@ namespace ClubWebSite
     public class Program
     {
         public static void Main(string[] args)
-        {
+        {           
+
             var host = new WebHostBuilder()
                 .UseKestrel()
                 .UseContentRoot(Directory.GetCurrentDirectory())
@@ -21,5 +22,13 @@ namespace ClubWebSite
 
             host.Run();
         }
+    }
+
+    public class AA
+    {
+        public string s
+        { get; set; }
+        public string i
+        { get; set; }
     }
 }
