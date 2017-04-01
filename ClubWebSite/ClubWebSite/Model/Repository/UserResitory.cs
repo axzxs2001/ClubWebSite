@@ -1,16 +1,16 @@
-﻿using ClubWebSite.Model;
-using ClubWebSite.Model.Entity;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using ClubWebSite.Model.Entity;
+using ClubWebSite.Model;
 
 namespace Asp.NetCore_WebPage.Model.Repository
 {
     /// <summary>
-    /// 权限仓储类
+    /// 用户管理接口
     /// </summary>
-    public class ActiveResitory : IActiveResitory
+    public class UserResitory : IUserResitory
     {
         /// <summary>
         /// 数据库对象
@@ -20,19 +20,20 @@ namespace Asp.NetCore_WebPage.Model.Repository
         /// 权限仓储类构造
         /// </summary>
         /// <param name="dbContext">startup注入的数据库对象</param>
-        public ActiveResitory(DataHandle dataHandle)
+        public UserResitory(DataHandle dataHandle)
         {
             _dataHandle = dataHandle;
         }
         /// <summary>
-        /// 添加实体
+        /// 登录
         /// </summary>
-        /// <param name="active"></param>
+        /// <param name="userName">用户名</param>
+        /// <param name="password">密码</param>
         /// <returns></returns>
-        public bool AddActive(Active active)
+        public User Login(string userName, string password)
         {
-            return _dataHandle.AddEntity(active);
+            var users = _dataHandle.GetAll(typeof(User));
+            return users.SingleOrDefault(s => (s as User).UserName == userName && (s as User).Password == password) as User;
         }
-
     }
 }

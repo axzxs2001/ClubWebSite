@@ -7,11 +7,10 @@ using System.Threading.Tasks;
 namespace Asp.NetCore_WebPage.Model.Repository
 {
     /// <summary>
-    /// 活动管理接口
+    /// 用户管理接口
     /// </summary>
-    public interface IActiveResitory
+    public interface IUserResitory
     {
-
-        bool AddActive(Active active);
+        User Login(string userName, string password);
     }
 }
