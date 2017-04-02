@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.IO;
 using ClubWebSite.Model.Entity;
+using System.Runtime.Serialization.Formatters;
 
 namespace ClubWebSite.Model
 {
@@ -19,18 +20,20 @@ namespace ClubWebSite.Model
         /// <summary>
         /// 内存数据
         /// </summary>
-        Dictionary<string, Dictionary<string, Entity.EntityObject>> _data;
+        Dictionary<string, Entity.Active> _actives;
+        Dictionary<string, Entity.User> _users;
         public DataHandle(string dataDir)
         {
             _dataDir = dataDir;
-            _data = new Dictionary<string, Dictionary<string, Entity.EntityObject>>();
+            _actives = Read<Active>();
+            _users = Read<User>();
         }
         /// <summary>
         /// 添加实体
         /// </summary>
         /// <typeparam name="entity">实体</typeparam>     
         /// <returns></returns>
-        public bool AddEntity(EntityObject entity)
+        public bool AddEntity<T>(T entity) where T : EntityObject
         {
             var typeName = entity.GetType().Name;
             if (_data.Keys.Contains(typeName))
@@ -39,11 +42,11 @@ namespace ClubWebSite.Model
             }
             else
             {
-                var dic = Read(entity.GetType());
+                var dic = new Dictionary<string, EntityObject>();
                 dic.Add(entity.ID, entity);
                 _data.Add(typeName, dic);
             }
-            return Write(_data[typeName], entity.GetType());
+            return Write();
         }
         /// <summary>
         /// 移除实体
@@ -56,14 +59,13 @@ namespace ClubWebSite.Model
             if (_data.Keys.Contains(typeName))
             {
                 _data[typeName].Remove(entity.ID);
+                return Write();
             }
             else
             {
-                var dic = Read(entity.GetType());
-                dic.Remove(entity.ID);
-                _data.Add(typeName, dic);
+                return false;
             }
-            return Write(_data[typeName], entity.GetType());
+
         }
         /// <summary>
         /// 按照ID查询对象
@@ -74,12 +76,16 @@ namespace ClubWebSite.Model
         public T GetEntity<T>(string id) where T : EntityObject
         {
             var typeName = typeof(T).Name;
-            if (!_data.Keys.Contains(typeName))
+            //集合是否包含类型
+            if (_data.Keys.Contains(typeName))
             {
-                var dic = Read(typeof(T));
-                _data.Add(typeName, dic);
+                return _data[typeName][id] as T;
             }
-            return _data[typeName][id] as T;
+            else
+            {
+                return null;
+            }
+
         }
         /// <summary>
         /// 分页查询
@@ -88,18 +94,18 @@ namespace ClubWebSite.Model
         /// <param name="countPerPage">每页记数数</param>
         /// <param name="type">实体类型</param>
         /// <returns></returns>
-        public (List<T> entities, int count) GetPageEntities<T>(int pageIndex, int countPerPage) where  T:EntityObject
+        public (List<T> entities, int count) GetPageEntities<T>(int pageIndex, int countPerPage) where T : EntityObject
         {
             var typeName = typeof(T).Name;
             if (!_data.Keys.Contains(typeName))
             {
-                var dic = Read(typeof(T));
-                _data.Add(typeName, dic);
+
+                return (new List<T>(), 0);
             }
             var entityList = _data[typeName].Values.Skip((pageIndex - 1) * countPerPage).Take(countPerPage).ToList();
             //转成具体的子类
             var list = new List<T>();
-            foreach(T t in entityList)
+            foreach (T t in entityList)
             {
                 list.Add(t);
             }
@@ -116,10 +122,13 @@ namespace ClubWebSite.Model
             var typeName = type.Name;
             if (!_data.Keys.Contains(typeName))
             {
-                var dic = Read(type);
-                _data.Add(typeName, dic);
+
+                return new List<EntityObject>();
             }
-            return _data[typeName].Values.ToList();
+            else
+            {
+                return _data[typeName].Values.ToList();
+            }
         }
 
 
@@ -129,11 +138,14 @@ namespace ClubWebSite.Model
         /// <param name="entitys">写入实体集合</param>
         /// <param name="type">实体类型</param>
         /// <returns></returns>
-        bool Write(Dictionary<string, EntityObject> entitys, Type type)
+        bool Write()
         {
-            var fileName = type.Name;
-            var json = Newtonsoft.Json.JsonConvert.SerializeObject(entitys);
-            using (var fileStream = new FileStream(Path.Combine(_dataDir, fileName), FileMode.CreateNew, FileAccess.Write))
+
+            var json = Newtonsoft.Json.JsonConvert.SerializeObject(_data);
+            var file = Path.Combine(_dataDir, $"ClubWebSite_Data.json");
+
+            // var formater=new System.Runtime.Serialization.Formatters..
+            using (var fileStream = new FileStream(file, FileMode.Create, FileAccess.Write))
             {
                 var bytes = System.Text.Encoding.UTF8.GetBytes(json);
                 fileStream.Write(bytes, 0, bytes.Length);
@@ -146,16 +158,26 @@ namespace ClubWebSite.Model
         /// </summary>
         /// <param name="type">实体类型</param>
         /// <returns></returns>
-        public Dictionary<string, EntityObject> Read(Type type)
+        public Dictionary<string, T> Read<T>() where T:EntityObject
         {
-            var fileName = type.Name;
-            using (var fileStream = new FileStream(Path.Combine(_dataDir, fileName), FileMode.Open, FileAccess.Read))
+            var typeName = typeof(T).Name;
+            var file = Path.Combine(_dataDir, $"{typeName}.json");
+            var dic= new Dictionary<string, T>(); 
+            if (File.Exists(file))
             {
-                var bytes = new byte[fileStream.Length];
-                fileStream.Read(bytes, 0, bytes.Length);
-                var json = System.Text.Encoding.UTF8.GetString(bytes);
-                return Newtonsoft.Json.JsonConvert.DeserializeObject(json) as Dictionary<string, EntityObject>;
+                using (var fileStream = new FileStream(file, FileMode.Open, FileAccess.Read))
+                {
+                    var bytes = new byte[fileStream.Length];
+                    fileStream.Read(bytes, 0, bytes.Length);
+                    var json = System.Text.Encoding.UTF8.GetString(bytes);
+                    var list = Newtonsoft.Json.JsonConvert.DeserializeObject(json) as List<T>;
+                    foreach(var item in list)
+                    {
+                        dic.Add(item.ID, item);
+                    }                
+                }
             }
+            return dic;
         }
     }
 }
