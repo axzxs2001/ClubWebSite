@@ -5,12 +5,6 @@
     <link href="~/lib/bootstrap-datepicker/dist/css/bootstrap-datepicker.css" rel="stylesheet" />
     <link href="~/lib/bootstrap-datepicker/dist/css/bootstrap-datepicker3.css" rel="stylesheet" />
     <style>
-        .title-text {
-            background-color: #91e86c;
-            padding: 3px;
-            width: 150px;
-        }
-
         .title-css {
             font-size: 1.6em;
             vertical-align: middle;
@@ -23,41 +17,46 @@
         .col-md-2 {
             text-align: right;
         }
+
+        .mark {
+            color: red;
+            font-size: 1.6em;
+            background-color: white;
+        }
     </style>
 }
 <div class="container">
     <div class="row">
-        <div class="title-text">
-            <h2>添加活动</h2>
+        <div style="margin-bottom:-10px;margin-left:30px">
+            <img src="~/images/active.png" width="150" height="60" />
         </div>
     </div>
-
     <div class="row">
-        <div class="col-md-2 title-css">活动名称：</div>
+        <div class="col-md-2 title-css">活动名称：<span class="mark">*</span></div>
         <div class="col-md-10">
             <input class="form-control input-lg input-text" placeholder="活动名称" id="activename" name="activename" />
         </div>
     </div>
     <div class="row">
-        <div class="col-md-2 title-css">活动地址：</div>
+        <div class="col-md-2 title-css">活动地址：<span class="mark">*</span></div>
         <div class="col-md-10">
             <input class="form-control input-lg input-text" placeholder="活动地址" id="activeaddress" name="activeaddress" />
         </div>
     </div>
     <div class="row">
-        <div class="col-md-2 title-css">开始日期：</div>
+        <div class="col-md-2 title-css">开始日期：<span class="mark">*</span></div>
         <div class="col-md-4" id="sandbox-container">
-            
-                <div class="input-group date">
-                    <input type="text" class="form-control  input-lg" id="begindate" name="begindate" placeholder="开始时间" value="">
-                    <span class="input-group-addon">
-                        <i class="glyphicon glyphicon-th"></i>
-                    </span>
-                </div>
+
+            <div class="input-group date">
+                <input type="text" class="form-control  input-lg" id="begindate" name="begindate" placeholder="开始时间" value="">
+                <span class="input-group-addon">
+                    <i class="glyphicon glyphicon-th"></i>
+                </span>
+            </div>
         </div>
-        <div class="col-md-2 title-css">开始时间：</div>
+        <div class="col-md-2 title-css">开始时间：<span class="mark">*</span></div>
         <div class="col-md-4 title-css">
-            <select class="form-control  input-lg" name="begintime">
+            <select class="form-control  input-lg" name="begintime" id="begintime">
                 <option selected value="05:00:00">05:00:00</option>
                 <option value="05:30:00">05:30:00</option>
                 <option value="06:00:00">06:00:00</option>
@@ -100,7 +99,7 @@
         </div>
     </div>
     <div class="row">
-        <div class="col-md-2 title-css">结束日期：</div>
+        <div class="col-md-2 title-css">结束日期：<span class="mark">*</span></div>
         <div class="col-md-4" id="sandbox-container">
 
             <div class="input-group date">
@@ -110,7 +109,7 @@
                 </span>
             </div>
         </div>
-        <div class="col-md-2 title-css">结束时间：</div>
+        <div class="col-md-2 title-css">结束时间：<span class="mark">*</span></div>
         <div class="col-md-4 title-css">
             <select class="form-control  input-lg" id="endtime" name="endtime">
                 <option selected value="05:00:00">05:00:00</option>
@@ -156,13 +155,18 @@
     </div>
     <div class="row">
         <div class="col-md-2 title-css">上传海报：</div>
-        <div class="col-md-5" style="height:300px;width:480px;background-color:#ebebeb">
+        <div class="col-md-5">
+            <img id="logo" src="" height="300" width="480"/>
         </div>
         <div class="col-md-5">
             <div class="row">
-                <button  class="btn btn-lg btn-success" style="margin-left:20px;width:300px;font-size:2em;">
+                <form id="form" method="post" enctype="multipart/form-data">
+                    <input id="logofile" onchange="upload()"  name="logofile" type="file" style="display:none" />
+                </form>
+                <button class="btn btn-lg btn-success" style="margin-left:20px;width:300px;font-size:2em;" onclick="openfile()">
                     <span class="glyphicon glyphicon-open" aria-hidden="true"></span>&nbsp;&nbsp;上&nbsp;传
                 </button>
+                <input name="logoPath" type="hidden" />
             </div>
         </div>
     </div>
@@ -181,9 +185,9 @@
     </div>
 
     <div class="row">
-        <div class="col-md-2 title-css">是否报名：</div>
+        <div class="col-md-2 title-css">是否报名：<span class="mark">*</span></div>
         <div class="col-md-10">
-            <input type="checkbox" class="form-control" style="width:30px" id="isemroll" name="isemroll" />
+            <input type="checkbox" value="true" class="form-control" style="width:30px" id="isemroll" name="isemroll" />
         </div>
     </div>
 
@@ -200,6 +204,7 @@
     <script type="text/javascript" charset="utf-8" src="~/lib/ueditor/lang/zh-cn/zh-cn.js"></script>
     <script src="~/lib/bootstrap-datepicker/dist/js/bootstrap-datepicker.js"></script>
     <script src="~/lib/bootstrap-datepicker/dist/locales/bootstrap-datepicker.zh-CN.min.js"></script>
+    <script src="~/js/jquery.form.js"></script>
     <script>
         $(function () {
             createEditor();
@@ -222,7 +227,8 @@
         });
 
         function sava() {
-            $.post("", {
+     
+            $.post("addactive", {
                 activename: $("#activename").val(),
                 activeaddress: $("#activeaddress").val(),
                 begindate: $("#begindate").val(),
@@ -230,14 +236,32 @@
                 enddate: $("#enddate").val(),
                 endtime: $("#endtime").val(),
                 content: UE.getEditor('editor').getContent(),
-                isEnroll: $("#isemroll").ischecked,
-                logoPath: $("#").val(),
+                isEnroll: $("#isemroll").attr("cheched"),
+                logoPath: $("#logoPath").val(),
                 peopleNumber: $("#peoplecount").val()
 
             }, function (result) {
 
 
             })
+        }
+        function openfile() {
+          
+            $("#logofile").click();
+        }
+        function upload()
+        {
+            $("#form").ajaxSubmit({
+                type: "POST",//提交类型 
+                url: "/uploadimage",//请求地址  
+                success: function (result) {//请求成功后的函数  
+                    $("#logo").attr("src", result);
+                    $("#logoPath").val(result);
+                },
+                error: function (data) { alert(data); },//请求失败的函数  
+                async: true
+            });
+
         }
     </script>
 }

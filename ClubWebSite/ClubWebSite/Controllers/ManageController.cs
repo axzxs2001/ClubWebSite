@@ -6,6 +6,8 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Authorization;
 using Asp.NetCore_WebPage.Model.Repository;
 using ClubWebSite.Model.DataModel;
+using Microsoft.AspNetCore.Hosting;
+using System.IO;
 
 namespace ClubWebSite.Controllers
 {
@@ -53,20 +55,46 @@ namespace ClubWebSite.Controllers
 
         public bool SavaActive(string activename, string activeaddress, string begindate, string begintime, string enddate, string endtime, string content, bool isEnroll, string logoPath, int peopleNumber)
         {
-            return true;
-            //return _acctiveResitory.AddActive(new Active()
-            //{
-            //    Address = activeaddress,
-            //    Name = activename,
-            //    BeginTime = Convert.ToDateTime($"{begindate} {begintime}"),
-            //    EndTime = Convert.ToDateTime($"{enddate} {endtime}"),
-            //    Content = content,
-            //    IsEnroll = isEnroll,
-            //    Logo = logoPath,
-            //    PeopleNumber = peopleNumber,
-            //    CreateTime = DateTime.Now,
-            //    ID =1
-            //});
+       
+            return _acctiveResitory.AddActive(new Active()
+            {
+                Address = activeaddress,
+                Name = activename,
+                BeginTime = Convert.ToDateTime($"{begindate} {begintime}"),
+                EndTime = Convert.ToDateTime($"{enddate} {endtime}"),
+                Content = content,
+                IsEnroll = isEnroll,
+                Logo = logoPath,
+                PeopleNumber = peopleNumber,
+                CreateTime = DateTime.Now,
+                UserID=1,
+                ID = 1
+            });
+        }
+        /// <summary>
+        /// 上传图片
+        /// </summary>
+        /// <param name="env"></param>
+        /// <returns></returns>
+        [HttpPost("uploadimage")]
+        public string UploadImg([FromServices]IHostingEnvironment env)
+        {
+            var files = HttpContext.Request.Form.Files;
+            int i = 0;
+            var imagePath="";
+            if(files.Count>0)
+            {
+                var file = files[0];           
+                imagePath = @"\upload\myimage\" + DateTime.Now.ToString("yyyyMMddhhmmssfff") + (i++).ToString() + ".jpg";
+                var stream = file.OpenReadStream();
+                var bytes = new byte[stream.Length];
+                stream.Read(bytes, 0, bytes.Length);
+                var filestream = new FileStream(env.WebRootPath + imagePath, FileMode.CreateNew, FileAccess.ReadWrite);
+                filestream.Write(bytes, 0, bytes.Length);
+                filestream.Flush();
+                filestream.Dispose();
+            }
+            return imagePath;
         }
 
     }

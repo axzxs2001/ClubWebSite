@@ -9,6 +9,9 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Content Include="wwwroot\images\active.png" />
+    <Content Include="wwwroot\images\png.jpg" />
+    <Content Include="wwwroot\js\jquery.form.js" />
     <Content Include="wwwroot\lib\ueditor\dialogs\anchor\anchor.html" />
     <Content Include="wwwroot\lib\ueditor\dialogs\attachment\attachment.css" />
     <Content Include="wwwroot\lib\ueditor\dialogs\attachment\attachment.html" />
@@ -301,7 +304,8 @@
     <ProjectReference Include="..\UEditorNetCore\UEditorNetCore.csproj" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="wwwroot\upload\" />
+    <Folder Include="wwwroot\upload\myimage\" />
+    <Folder Include="wwwroot\upload\myimage\" />
   </ItemGroup>
 
 </Project>
