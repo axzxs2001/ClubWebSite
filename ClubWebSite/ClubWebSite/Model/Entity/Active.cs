@@ -18,9 +18,16 @@ namespace ClubWebSite.Model.Entity
             get; set;
         }
         /// <summary>
-        /// 活动时间
+        /// 活动开始时间
         /// </summary>
-        public DateTime Time
+        public DateTime BeginTime
+        {
+            get; set;
+        }
+        /// <summary>
+        /// 活动结束时间
+        /// </summary>
+        public DateTime EndTime
         {
             get; set;
         }

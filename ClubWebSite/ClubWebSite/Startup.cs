@@ -8,6 +8,8 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using ClubWebSite.Model;
+using Asp.NetCore_WebPage.Model.Repository;
+using UEditorNetCore;
 
 namespace ClubWebSite
 {
@@ -28,8 +30,16 @@ namespace ClubWebSite
       
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddOptions();
             services.Configure<AppSetting>(Configuration.GetSection("AppSettings"));
+            //注入数据处理对象
             services.AddSingleton(new DataHandle(Configuration.GetSection("AppSettings").GetSection("DataDir").Value));
+            //注入活动仓储类
+            services.AddTransient<IActiveResitory, ActiveResitory>();
+            //注入用户仓储类
+            services.AddTransient<IUserResitory, UserResitory>();
+
+            services.AddUEditorService();
             services.AddMvc();
         }
     

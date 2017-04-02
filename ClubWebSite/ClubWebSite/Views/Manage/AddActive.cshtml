@@ -1,8 +1,111 @@
 ﻿@{
     ViewData["Title"] = "添加活动";
 }
+@section css{
+    <style>
+        .title-text {
+            background-color: #91e86c;
+            padding: 3px;
+            width: 150px;
+        }
 
+        .title-css {
+            font-size:1.6em;
+            vertical-align:middle;
+        }
+
+        .row {
+            margin-top: 10px
+        }
+    </style>
+}
 <div class="container">
-    <h2>添加活动</h2>
+    <div class="row">
+        <div class="title-text">
+            <h2>添加活动</h2>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-2 title-css">活动名称：</div>
+        <div class="col-md-10">
+            <input class="form-control input-lg input-text" placeholder="活动名称" name="activename" />
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-2 title-css">活动地址：</div>
+        <div class="col-md-10">
+            <input class="form-control input-lg input-text" placeholder="活动地址" name="activeaddress" />
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-2 title-css">开始时间：</div>
+        <div class="col-md-4">
+            <input class="form-control input-lg input-text" placeholder="开始时间" name="activeaddress" />
+        </div>
+        <div class="col-md-2 title-css">结束时间：</div>
+        <div class="col-md-4">
+            <input class="form-control input-lg input-text" placeholder="结束时间" name="activeaddress" />
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-2 title-css">上传海报：</div>
+        <div class="col-md-5" style="height:300px;width:480px;background-color:#ebebeb">
+        </div>
+        <div class="col-md-5">
+            <div class="row" >
+                <button class="btn btn-lg btn-success" style="margin-left:20px;width:300px;font-size:2em;">
+                    <span class="glyphicon glyphicon-open" aria-hidden="true"></span>&nbsp;&nbsp;上&nbsp;传
+                    </button>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-2 title-css">活动人数：</div>
+        <div class="col-md-10">
+            <input class="form-control input-lg input-text" placeholder="活动人数" name="peoplecount" />
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-2 title-css">详细内容：</div>
+        <div class="col-md-10">
+            <script id="editor" type="text/plain" style="height:480px;">
+            </script>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-2 title-css">是否报名：</div>
+        <div class="col-md-10">
+            <input type="checkbox" class="form-control" style="width:30px"  name="peoplecount" />
+        </div>
+    </div>
+
+    <div class="row" style="text-align:center;margin-top:20px;">
+        <button class="btn btn-lg btn-success" style="margin-left:20px;width:300px;font-size:2em;">
+            <span class="glyphicon glyphicon-ok" aria-hidden="true"></span>&nbsp;&nbsp;发&nbsp;布
+        </button>
+    </div>
 </div>
+
+@section scripts{
+    <script type="text/javascript" charset="utf-8" src="~/lib/ueditor/ueditor.config.js"></script>
+    <script type="text/javascript" charset="utf-8" src="~/lib/ueditor/ueditor.all.min.js"> </script>
+    <script type="text/javascript" charset="utf-8" src="~/lib/ueditor/lang/zh-cn/zh-cn.js"></script>
+    <script>
+        $(function () {
+            createEditor();
+        });
+        function createEditor() {
+        
+            UE.getEditor('editor').addListener('ready', function (editor) {
+                //加载内容
+               
+            });
+        }
+    </script>
+}
+
+
+
+
 

@@ -17,6 +17,7 @@
         <link rel="stylesheet" href="~/css/site.min.css" asp-append-version="true" />
     </environment>
     @Html.Raw(JavaScriptSnippet.FullScript)
+    @RenderSection("css", required: false)
 </head>
 <body>
     <nav class="navbar navbar-inverse navbar-fixed-top">

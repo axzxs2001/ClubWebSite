@@ -7,14 +7,14 @@ using Microsoft.AspNetCore.Authorization;
 
 namespace ClubWebSite.Controllers
 {
-    [Authorize(Roles = "admin")]
+   // [Authorize(Roles = "admin")]
     public class ManageController : Controller
     {
         /// <summary>
         /// 添加活动
         /// </summary>
         /// <returns></returns>
-        [HttpGet("add")]
+        [HttpGet("addactive")]
         public IActionResult AddActive()
         {
             return View();
@@ -23,7 +23,7 @@ namespace ClubWebSite.Controllers
         /// 详细信息
         /// </summary>
         /// <returns></returns>
-        [HttpPost("add")]
+        [HttpPost("addactive")]
         public IActionResult AddActive(int id)
         {
             ViewData["Message"] = "Your application description page."+id;
