@@ -40,12 +40,13 @@ namespace ClubWebSite.Controllers
         [HttpGet("actives/{pageindex}")]
         public JsonResult GetActives(int pageindex)
         {
-            var result = _acctiveResitory.GetActivePage(pageindex, 10);
-    
-            return new JsonResult(result, new Newtonsoft.Json.JsonSerializerSettings()
-            {
-                Formatting = Newtonsoft.Json.Formatting.None
-            });
+            // var result = _acctiveResitory.GetActivePage(pageindex, 10);
+
+            //return new JsonResult(result, new Newtonsoft.Json.JsonSerializerSettings()
+            //{
+            //    Formatting = Newtonsoft.Json.Formatting.None
+            //});
+            return null;
         }
         /// <summary>
         /// 详细信息

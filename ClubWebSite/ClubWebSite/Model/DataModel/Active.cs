@@ -2,14 +2,23 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
-namespace ClubWebSite.Model.Entity
+namespace ClubWebSite.Model.DataModel
 {
     /// <summary>
     /// 活动实体
     /// </summary>
-    public class Active : EntityObject
+    public class Active 
     {
+        /// <summary>
+        /// ID
+        /// </summary>
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
+        [Key]
+        public int ID
+        { get; set; }
         /// <summary>
         /// 活动名称
         /// </summary>
@@ -65,6 +74,11 @@ namespace ClubWebSite.Model.Entity
             get; set;
         }
         /// <summary>
+        /// 用户ID
+        /// </summary>
+        public int UserID
+        { get; set; }
+        /// <summary>
         /// 创建活动人员
         /// </summary>
         public User CreateUser
@@ -83,5 +97,8 @@ namespace ClubWebSite.Model.Entity
         /// </summary>
         public List<Enroll> Enrolls
         { get; set; }
+
+
+
     }
 }

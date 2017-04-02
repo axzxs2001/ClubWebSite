@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Authorization;
 using Asp.NetCore_WebPage.Model.Repository;
+using ClubWebSite.Model.DataModel;
 
 namespace ClubWebSite.Controllers
 {
@@ -52,19 +53,20 @@ namespace ClubWebSite.Controllers
 
         public bool SavaActive(string activename, string activeaddress, string begindate, string begintime, string enddate, string endtime, string content, bool isEnroll, string logoPath, int peopleNumber)
         {
-            return _acctiveResitory.AddActive(new Model.Entity.Active()
-            {
-                Address = activeaddress,
-                Name = activename,
-                BeginTime = Convert.ToDateTime($"{begindate} {begintime}"),
-                EndTime = Convert.ToDateTime($"{enddate} {endtime}"),
-                Content = content,
-                IsEnroll = isEnroll,
-                Logo = logoPath,
-                PeopleNumber = peopleNumber,
-                CreateTime = DateTime.Now,
-                ID = Guid.NewGuid().ToString()
-            });
+            return true;
+            //return _acctiveResitory.AddActive(new Active()
+            //{
+            //    Address = activeaddress,
+            //    Name = activename,
+            //    BeginTime = Convert.ToDateTime($"{begindate} {begintime}"),
+            //    EndTime = Convert.ToDateTime($"{enddate} {endtime}"),
+            //    Content = content,
+            //    IsEnroll = isEnroll,
+            //    Logo = logoPath,
+            //    PeopleNumber = peopleNumber,
+            //    CreateTime = DateTime.Now,
+            //    ID =1
+            //});
         }
 
     }

@@ -10,6 +10,8 @@ using Microsoft.Extensions.Logging;
 using ClubWebSite.Model;
 using Asp.NetCore_WebPage.Model.Repository;
 using UEditorNetCore;
+using ClubWebSite.Model.DataModel;
+using Microsoft.EntityFrameworkCore;
 
 namespace ClubWebSite
 {
@@ -31,11 +33,14 @@ namespace ClubWebSite
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddOptions();
-            services.Configure<AppSetting>(Configuration.GetSection("AppSettings"));
-            //注入数据处理对象
-            services.AddSingleton(new DataHandle(Configuration.GetSection("AppSettings").GetSection("DataDir").Value));
+            //添加数据操作
+            var connection = Configuration.GetConnectionString("DefaultConnection");
+            //添加数据实体
+            services.AddDbContext<ClubWebSiteDbContext>(options =>options.UseSqlite(connection));
+
+
             //注入活动仓储类
-            services.AddTransient<IActiveResitory, ActiveResitory>();
+          services.AddTransient<IActiveResitory, ActiveResitory>();
             //注入用户仓储类
             services.AddTransient<IUserResitory, UserResitory>();
 

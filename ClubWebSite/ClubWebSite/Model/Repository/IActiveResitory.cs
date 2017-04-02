@@ -1,8 +1,5 @@
-﻿using ClubWebSite.Model.Entity;
-using System;
+﻿using ClubWebSite.Model.DataModel;
 using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace Asp.NetCore_WebPage.Model.Repository
 {
@@ -29,6 +26,6 @@ namespace Asp.NetCore_WebPage.Model.Repository
         /// </summary>
         /// <param name="id">编号</param>
         /// <returns></returns>
-        Active GetActive(string id);
+        Active GetActive(int id);
     }
 }
