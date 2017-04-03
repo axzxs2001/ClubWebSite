@@ -52,7 +52,19 @@ namespace ClubWebSite
         {
             loggerFactory.AddConsole(Configuration.GetSection("Logging"));
             loggerFactory.AddDebug();
-
+            //为验证添加中间件
+            app.UseCookieAuthentication(new CookieAuthenticationOptions
+            {
+                //验证方案名称
+                AuthenticationScheme = "loginvalidate",
+                //没有权限时导航的登录action
+                LoginPath = new Microsoft.AspNetCore.Http.PathString("/login"),
+                //访问被拒绝后的acion
+                AccessDeniedPath = new Microsoft.AspNetCore.Http.PathString("/login"),
+                AutomaticAuthenticate = true,
+                AutomaticChallenge = true,
+                SlidingExpiration = true
+            });
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();

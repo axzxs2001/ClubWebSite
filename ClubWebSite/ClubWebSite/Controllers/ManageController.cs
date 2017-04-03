@@ -8,10 +8,14 @@ using Asp.NetCore_WebPage.Model.Repository;
 using ClubWebSite.Model.DataModel;
 using Microsoft.AspNetCore.Hosting;
 using System.IO;
+using System.Security.Claims;
 
 namespace ClubWebSite.Controllers
 {
-    // [Authorize(Roles = "admin")]
+    /// <summary>
+    /// 管理控制器
+    /// </summary>
+    [Authorize(Roles = "admin")]
     public class ManageController : Controller
     {
         /// <summary>
@@ -55,7 +59,7 @@ namespace ClubWebSite.Controllers
 
         public bool SavaActive(string activename, string activeaddress, string begindate, string begintime, string enddate, string endtime, string content, bool isEnroll, string logoPath, int peopleNumber)
         {
-       
+
             return _acctiveResitory.AddActive(new Active()
             {
                 Address = activeaddress,
@@ -67,7 +71,7 @@ namespace ClubWebSite.Controllers
                 Logo = logoPath,
                 PeopleNumber = peopleNumber,
                 CreateTime = DateTime.Now,
-                UserID=1,
+                UserID = 1,
                 ID = 1
             });
         }
@@ -81,10 +85,10 @@ namespace ClubWebSite.Controllers
         {
             var files = HttpContext.Request.Form.Files;
             int i = 0;
-            var imagePath="";
-            if(files.Count>0)
+            var imagePath = "";
+            if (files.Count > 0)
             {
-                var file = files[0];           
+                var file = files[0];
                 imagePath = @"\upload\myimage\" + DateTime.Now.ToString("yyyyMMddhhmmssfff") + (i++).ToString() + ".jpg";
                 var stream = file.OpenReadStream();
                 var bytes = new byte[stream.Length];
@@ -97,5 +101,32 @@ namespace ClubWebSite.Controllers
             return imagePath;
         }
 
+
+        /// <summary>
+        /// 获取我的活动
+        /// </summary>
+        /// <returns></returns>
+        [HttpGet("myactives")]
+        public IActionResult MyActives()
+        {  
+            return View();
+        }
+        /// <summary>
+        /// 获取我的活动
+        /// </summary>
+        /// <returns></returns>
+        public JsonResult GetMyActives()
+        {
+            var userIDChars = User.Claims.SingleOrDefault(s => s.Type == ClaimTypes.Sid)?.Value;
+            var actives = new List<Active>();
+            if (!string.IsNullOrEmpty(userIDChars))
+            {
+                var userID = Convert.ToInt32(userIDChars);
+                actives = _acctiveResitory.GetActivesByUserID(userID);
+            }
+            return new JsonResult(actives, new Newtonsoft.Json.JsonSerializerSettings(){
+                
+            });
+        }
     }
 }

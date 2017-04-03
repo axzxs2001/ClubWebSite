@@ -27,5 +27,12 @@ namespace Asp.NetCore_WebPage.Model.Repository
         /// <param name="id">编号</param>
         /// <returns></returns>
         Active GetActive(int id);
+
+        /// <summary>
+        /// 按用户ID获取活动
+        /// </summary>
+        /// <param name="userID"></param>
+        /// <returns></returns>
+        List<Active> GetActivesByUserID(int userID);
     }
 }

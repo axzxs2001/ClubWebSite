@@ -58,6 +58,15 @@ namespace Asp.NetCore_WebPage.Model.Repository
         {
             return _dbContext.Actives.SingleOrDefault(s => s.ID == id);
         }
+        /// <summary>
+        /// 按用户ID获取活动
+        /// </summary>
+        /// <param name="userID">用户ID</param>
+        /// <returns></returns>
+        public List<Active> GetActivesByUserID(int userID)
+        {
+            return _dbContext.Actives.Where(w => w.UserID == userID).ToList();
+        }
 
     }
 }
