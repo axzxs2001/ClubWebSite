@@ -1,37 +1,51 @@
 ﻿@{
     ViewData["Title"] = "Home Page";
 }
+@section css
+{
+    <style>
+        .activeDiv{
+            background-color:#f7f5f5;
+
+            margin-top:3px;
+        }
+    </style>
+    }
 <div class="container">
     <div class="row">
-        这里是一个大图
+        dotnet社区活动
     </div>
-    <div id="active-row" v-for="item in result.actives">
-       
-            <div class="col-lg-6">
-                <img src="" />
-            </div>
-            <div class="col-lg-6">
+    <div id="active-row">
+        <div>
+            @*<div class="row" v-for="active in actives" v-bind:active="active">
+                <div class="col-lg-6">
+                    <img  src="~{{active.Logo}}" width="400px" />
+                </div>
+                <div class="col-lg-6">
+                    <h3>{{ active.Name }}</h3>
+                </div>
+            </div>*@
+            <active-row  v-for="active in actives" v-bind:active="active"></active-row>
+        </div>
+    </div>
 
-            </div>
-   
-    </div>
 
-    <div>
-        <span v-bind="{{result.pageCount}}"></span>
-    </div>
 </div>
 @section scripts{
     <script>
-        //Vue.component("active-row", {
-        //    props: ["todo"],
-        //    template: '<tr><td>{{todo.ID}}</td><td>{{todo.Name}}</td></tr>'
-        //})
-        $.get("actives", {pageindex:1}, function (result) {
+        Vue.component("active-row", {
+            props: ["active"],
+            template: '<div class="row activeDiv"><div class="col-lg-6"><img v-bind:src="active.Logo" width="400px"/></div><div class="col-lg-6"><h3>{{ active.Name }}</h3></div></div>'
+        })
+        $.get("validactives", {}, function (result) {
             new Vue({
                 el: "#active-row",
-                data: { result: result }
+                data: { actives: result }
             })
         })
     </script>
+
+
+
 }
 

@@ -41,5 +41,16 @@ namespace Asp.NetCore_WebPage.Model.Repository
         /// <param name="activeID"></param>
         /// <returns></returns>
         List<Enroll> GetEnrollsByActiveID(int activeID);
+
+        /// <summary>
+        /// 查询没有活动完的活动
+        /// </summary>
+        /// <returns></returns>
+        List<Active> GetValidityActives();
+        /// <summary>
+        /// 查询参加完活动的人
+        /// </summary>
+        /// <returns></returns>
+        List<Active> GetNoValidityActives();
     }
 }

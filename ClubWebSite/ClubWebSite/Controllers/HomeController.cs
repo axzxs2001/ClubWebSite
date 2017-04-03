@@ -57,6 +57,19 @@ namespace ClubWebSite.Controllers
             });
         }
         /// <summary>
+        /// 获取未举办的活动
+        /// </summary>
+        /// <returns></returns>
+        [HttpGet("validactives")]
+        public JsonResult GetValidActives()
+        {
+            var result = _acctiveResitory.GetValidityActives();
+            return new JsonResult(result, new Newtonsoft.Json.JsonSerializerSettings()
+            {
+                Formatting = Newtonsoft.Json.Formatting.None
+            });
+        }
+        /// <summary>
         /// 详细信息
         /// </summary>
         /// <returns></returns>

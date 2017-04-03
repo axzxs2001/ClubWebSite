@@ -77,6 +77,22 @@ namespace Asp.NetCore_WebPage.Model.Repository
         {
             return _dbContext.Enrolls.Where(w => w.ActiveID == activeID).ToList();
         }
+        /// <summary>
+        /// 查询没有活动完的活动
+        /// </summary>
+        /// <returns></returns>
+        public List<Active> GetValidityActives()
+        {
+            return _dbContext.Actives.Where(w => w.EndTime > DateTime.Now).ToList();
+        }
+        /// <summary>
+        /// 查询参加完活动的人
+        /// </summary>
+        /// <returns></returns>
+        public List<Active> GetNoValidityActives()
+        {
+            return _dbContext.Actives.Where(w => w.EndTime< DateTime.Now).ToList();
+        }
 
     }
 }
