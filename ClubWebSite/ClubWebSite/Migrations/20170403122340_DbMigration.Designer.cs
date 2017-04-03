@@ -8,9 +8,10 @@ using ClubWebSite.Model.DataModel;
 namespace ClubWebSite.Migrations
 {
     [DbContext(typeof(ClubWebSiteDbContext))]
-    partial class ClubWebSiteDbContextModelSnapshot : ModelSnapshot
+    [Migration("20170403122340_DbMigration")]
+    partial class DbMigration
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
             modelBuilder
                 .HasAnnotation("ProductVersion", "1.1.1");

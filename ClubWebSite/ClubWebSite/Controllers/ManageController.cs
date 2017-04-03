@@ -15,7 +15,7 @@ namespace ClubWebSite.Controllers
     /// <summary>
     /// 管理控制器
     /// </summary>
-    [Authorize(Roles = "admin")]
+    //[Authorize(Roles = "admin")]
     public class ManageController : Controller
     {
         /// <summary>
@@ -108,13 +108,14 @@ namespace ClubWebSite.Controllers
         /// <returns></returns>
         [HttpGet("myactives")]
         public IActionResult MyActives()
-        {  
+        {
             return View();
         }
         /// <summary>
         /// 获取我的活动
         /// </summary>
         /// <returns></returns>
+        [HttpGet("getmyactives")]
         public JsonResult GetMyActives()
         {
             var userIDChars = User.Claims.SingleOrDefault(s => s.Type == ClaimTypes.Sid)?.Value;
@@ -124,9 +125,26 @@ namespace ClubWebSite.Controllers
                 var userID = Convert.ToInt32(userIDChars);
                 actives = _acctiveResitory.GetActivesByUserID(userID);
             }
-            return new JsonResult(actives, new Newtonsoft.Json.JsonSerializerSettings(){
-                
+            return new JsonResult(actives, new Newtonsoft.Json.JsonSerializerSettings()
+            {
+
             });
         }
+        /// <summary>
+        /// 按活动ID查询报名信息
+        /// </summary>
+        /// <param name="activeID">活动ID</param>
+        /// <returns></returns>
+
+        [HttpGet("getactiveenrolls")]
+        public JsonResult GetActiveEnrolls(int activeID)
+        {
+            var enrolls = _acctiveResitory.GetEnrollsByActiveID(activeID);
+            return new JsonResult(enrolls, new Newtonsoft.Json.JsonSerializerSettings()
+            {
+                DateFormatString="yyyy年MM月dd日"
+            });
+        }
+
     }
 }

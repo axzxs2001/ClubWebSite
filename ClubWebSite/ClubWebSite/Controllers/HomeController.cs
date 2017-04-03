@@ -13,7 +13,7 @@ namespace ClubWebSite.Controllers
     /// <summary>
     /// home控制类
     /// </summary>
-    [Authorize(Roles = "admin")]
+    //[Authorize(Roles = "admin")]
     public class HomeController : Controller
     {
         /// <summary>

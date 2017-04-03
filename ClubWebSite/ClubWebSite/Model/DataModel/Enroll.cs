@@ -34,6 +34,13 @@ namespace ClubWebSite.Model.DataModel
         /// </summary>
         public string Email
         { get; set; }
+        /// <summary>
+        /// 报名时间
+        /// </summary>
+        public DateTime CreateTime
+        {
+            get;set;
+        }
 
         /// <summary>
         /// 活动ID

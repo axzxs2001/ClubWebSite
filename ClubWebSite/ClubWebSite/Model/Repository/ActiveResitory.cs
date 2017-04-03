@@ -65,7 +65,17 @@ namespace Asp.NetCore_WebPage.Model.Repository
         /// <returns></returns>
         public List<Active> GetActivesByUserID(int userID)
         {
-            return _dbContext.Actives.Where(w => w.UserID == userID).ToList();
+            return _dbContext.Actives.Where(w => w.UserID == userID).OrderByDescending(o=>o.CreateTime).ToList();
+        }
+
+        /// <summary>
+        /// 按照活动ID查询报名信息
+        /// </summary>
+        /// <param name="activeID"></param>
+        /// <returns></returns>
+        public List<Enroll> GetEnrollsByActiveID(int activeID)
+        {
+            return _dbContext.Enrolls.Where(w => w.ActiveID == activeID).ToList();
         }
 
     }
