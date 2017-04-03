@@ -57,23 +57,30 @@ namespace ClubWebSite.Controllers
 
         [HttpPost("addactive")]
 
-        public bool SavaActive(string activename, string activeaddress, string begindate, string begintime, string enddate, string endtime, string content, bool isEnroll, string logoPath, int peopleNumber)
+        public bool AddActive(string activename, string activeaddress, string begindate, string begintime, string enddate, string endtime, string content, bool isEnroll, string logoPath, int peopleNumber)
         {
-
-            return _acctiveResitory.AddActive(new Active()
+            var userIDChars = User.Claims.SingleOrDefault(s => s.Type == ClaimTypes.Sid)?.Value;
+            if (!string.IsNullOrEmpty(userIDChars))
             {
-                Address = activeaddress,
-                Name = activename,
-                BeginTime = Convert.ToDateTime($"{begindate} {begintime}"),
-                EndTime = Convert.ToDateTime($"{enddate} {endtime}"),
-                Content = content,
-                IsEnroll = isEnroll,
-                Logo = logoPath,
-                PeopleNumber = peopleNumber,
-                CreateTime = DateTime.Now,
-                UserID = 1,
-                ID = 1
-            });
+                var userID = Convert.ToInt32(userIDChars);
+                return _acctiveResitory.AddActive(new Active()
+                {
+                    Address = activeaddress,
+                    Name = activename,
+                    BeginTime = Convert.ToDateTime($"{begindate} {begintime}"),
+                    EndTime = Convert.ToDateTime($"{enddate} {endtime}"),
+                    Content = content,
+                    IsEnroll = isEnroll,
+                    Logo = logoPath,
+                    PeopleNumber = peopleNumber,
+                    CreateTime = DateTime.Now,
+                    UserID = userID
+
+                });
+            }else
+            {
+                return false;
+            }
         }
         /// <summary>
         /// 上传图片

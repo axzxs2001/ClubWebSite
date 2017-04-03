@@ -101,7 +101,6 @@
     <div class="row">
         <div class="col-md-2 title-css">结束日期：<span class="mark">*</span></div>
         <div class="col-md-4" id="sandbox-container">
-
             <div class="input-group date">
                 <input type="text" class="form-control  input-lg  rq" id="enddate" name="enddate" placeholder="结束日期" value="">
                 <span class="input-group-addon">
@@ -154,30 +153,30 @@
         </div>
     </div>
     <div class="row">
-        <div class="col-md-2 title-css">上传海报：</div>
+        <div class="col-md-2 title-css">上传海报：<span class="mark">*</span></div>
         <div class="col-md-5">
-            <img id="logo" src="" height="300" width="480"/>
+            <img id="logo" src="" height="300" width="480" />
         </div>
         <div class="col-md-5">
             <div class="row">
-                <form id="form" method="post" enctype="multipart/form-data">
-                    <input id="logofile" onchange="upload()"  name="logofile" type="file" style="display:none" />
+                <form method="post" id="form" enctype="multipart/form-data">
+                    <input id="logofile" onchange="upload()" name="logofile" type="file" style="display:none" />
                 </form>
                 <button class="btn btn-lg btn-success" style="margin-left:20px;width:300px;font-size:2em;" onclick="openfile()">
                     <span class="glyphicon glyphicon-open" aria-hidden="true"></span>&nbsp;&nbsp;上&nbsp;传
                 </button>
-                <input name="logoPath" type="hidden" />
+                <input name="logoPath" id="logoPath" type="hidden" />
             </div>
         </div>
     </div>
     <div class="row">
-        <div class="col-md-2 title-css">活动人数：</div>
+        <div class="col-md-2 title-css">活动人数：<span class="mark">&nbsp;</span></div>
         <div class="col-md-10">
             <input type="number" class="form-control input-lg input-text" placeholder="活动人数" id="peoplecount" name="peoplecount" />
         </div>
     </div>
     <div class="row">
-        <div class="col-md-2 title-css">详细内容：</div>
+        <div class="col-md-2 title-css">详细内容：<span class="mark">*</span></div>
         <div class="col-md-10">
             <script id="editor" type="text/plain" style="height:480px;">
             </script>
@@ -185,20 +184,22 @@
     </div>
 
     <div class="row">
-        <div class="col-md-2 title-css">是否报名：<span class="mark">*</span></div>
+        <div class="col-md-2 title-css">是否报名：<span class="mark">&nbsp;</span></div>
         <div class="col-md-10">
             <input type="checkbox" value="true" class="form-control" style="width:30px" id="isemroll" name="isemroll" />
         </div>
     </div>
 
     <div class="row" style="text-align:center;margin-top:20px;">
-        <button onclick="sava()" class="btn btn-lg btn-success" style="margin-left:20px;width:300px;font-size:2em;">
+        <button class="btn btn-lg btn-success" style="margin-left:20px;width:300px;font-size:2em;" onclick="sava()">
             <span class="glyphicon glyphicon-ok" aria-hidden="true"></span>&nbsp;&nbsp;发&nbsp;布
         </button>
     </div>
+
 </div>
 
 @section scripts{
+
     <script type="text/javascript" charset="utf-8" src="~/lib/ueditor/ueditor.config.js"></script>
     <script type="text/javascript" charset="utf-8" src="~/lib/ueditor/ueditor.all.js"> </script>
     <script type="text/javascript" charset="utf-8" src="~/lib/ueditor/lang/zh-cn/zh-cn.js"></script>
@@ -208,12 +209,11 @@
     <script>
         $(function () {
             createEditor();
+
         });
         function createEditor() {
-
             UE.getEditor('editor').addListener('ready', function (editor) {
                 //加载内容
-
             });
         }
 
@@ -226,31 +226,68 @@
             todayHighlight: true
         });
 
-        function sava() {
-     
-            $.post("addactive", {
-                activename: $("#activename").val(),
-                activeaddress: $("#activeaddress").val(),
-                begindate: $("#begindate").val(),
-                begintime: $("#begintime").val(),
-                enddate: $("#enddate").val(),
-                endtime: $("#endtime").val(),
-                content: UE.getEditor('editor').getContent(),
-                isEnroll: $("#isemroll").attr("cheched"),
-                logoPath: $("#logoPath").val(),
-                peopleNumber: $("#peoplecount").val()
-
-            }, function (result) {
-
-
-            })
+        function validate() {
+            if ($("#activename").val() == "") {
+                alert("活动名称不能为空！")
+                return false;
+            }
+            if ($("#activeaddress").val() == "") {
+                alert("活动地址不能为空！")
+                return false;
+            }
+            if ($("#begindate").val() == "") {
+                alert("开始日期不能为空！")
+                return false;
+            }
+            if ($("#enddate").val() == "") {
+                alert("结束日期不能为空！")
+                return false;
+            }
+            if ($("#logoPath").val() == "") {
+                alert("上传海不能为空！")
+                return false;
+            }
+            if (!UE.getEditor('editor').hasContents()) {
+                alert("详细内容不能为空！")
+                return false;
+            }
+            return true;
         }
+        //保存活动
+        function sava() {
+            //验证
+            if (validate()) {
+                var isenroll = document.getElementById("isemroll").checked;
+                $.post("addactive", {
+                    activename: $("#activename").val(),
+                    activeaddress: $("#activeaddress").val(),
+                    begindate: $("#begindate").val(),
+                    begintime: $("#begintime").val(),
+                    enddate: $("#enddate").val(),
+                    endtime: $("#endtime").val(),
+                    content: UE.getEditor('editor').getContent(),
+                    isEnroll: isenroll,
+                    logoPath: $("#logoPath").val(),
+                    peopleNumber: $("#peoplecount").val()
+
+                }, function (result) {
+
+                    if (result) {
+                        alert("添加成功！")
+                        window.location.href = "/addactive";
+                    }
+                    else {
+                        alert("添加失败！")
+                    }
+                })
+            }
+        }
+        //打开上传控件
         function openfile() {
-          
             $("#logofile").click();
         }
-        function upload()
-        {
+        //上传
+        function upload() {
             $("#form").ajaxSubmit({
                 type: "POST",//提交类型 
                 url: "/uploadimage",//请求地址  
@@ -263,6 +300,7 @@
             });
 
         }
+
     </script>
 }
 
