@@ -10,6 +10,10 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Content Remove="wwwroot/upload\myimage\201704031018092350.jpg" />
+  </ItemGroup>
+
+  <ItemGroup>
     <Content Include="wwwroot\images\active.png" />
     <Content Include="wwwroot\js\jquery.form.js" />
     <Content Include="wwwroot\lib\ueditor\dialogs\anchor\anchor.html" />

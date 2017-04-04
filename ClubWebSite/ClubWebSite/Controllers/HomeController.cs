@@ -70,6 +70,20 @@ namespace ClubWebSite.Controllers
             });
         }
         /// <summary>
+        /// 获取历史举办的活动
+        /// </summary>
+        /// <returns></returns>
+        [HttpGet("hostoryactives")]
+        public JsonResult GetHostoryActives()
+        {
+            var result = _acctiveResitory.GetNoValidityActives();
+            return new JsonResult(result, new Newtonsoft.Json.JsonSerializerSettings()
+            {
+                Formatting = Newtonsoft.Json.Formatting.None
+            });
+        }
+
+        /// <summary>
         /// 详细信息
         /// </summary>
         /// <returns></returns>
