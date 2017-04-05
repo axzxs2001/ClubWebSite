@@ -152,6 +152,20 @@ namespace ClubWebSite.Controllers
                 DateFormatString="yyyy年MM月dd日"
             });
         }
+        /// <summary>
+        /// 修改活动
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        [HttpGet("/modifyactive/{id}")]
+        public IActionResult ModiyActive(int? id)
+        {
+            ViewData["activeid"] = id;
+            return View();
+        }
+
+
+       
 
     }
 }

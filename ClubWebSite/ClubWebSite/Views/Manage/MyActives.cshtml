@@ -5,7 +5,7 @@
     <div id="actives-row" class="row">
         <table class="table table-bordered table-hover">
             <thead>
-                <tr><th>编号</th><th>名称</th><th>开始时间</th><th>结束时间</th><th>是否报名</th><th>人数报名</th><th style="width:168px">操作</th></tr>
+                <tr><th>编号</th><th>名称</th><th>开始时间</th><th>结束时间</th><th>是否报名</th><th>人数报名</th><th style="width:216px">操作</th></tr>
             </thead>
             <tbody>
                 <tr is="active-row" v-for="active in actives" v-bind:active="active"></tr>
@@ -70,13 +70,16 @@
         //活动组件
         Vue.component("active-row", {
             props: ["active"],
-            template: '<tr><td>{{active.ID}}</td><td>{{active.Name}}</td><td>{{active.BeginTime}}</td><td>{{active.EndTime}}</td><td>{{active.IsEnroll}}</td><td>{{active.PeopleNumber}}</td><td><button class="btn btn-primary btn-sm" v-on:click="GetActiveDetail">详细信息</button> &nbsp;<button class="btn btn-primary btn-sm" v-on:click="GetEnroll">报名信息</button></td></tr>',
+            template: '<tr><td>{{active.ID}}</td><td>{{active.Name}}</td><td>{{active.BeginTime}}</td><td>{{active.EndTime}}</td><td>{{active.IsEnroll}}</td><td>{{active.PeopleNumber}}</td><td><button class="btn btn-primary btn-sm" v-on:click="modifyActive">修改</button>&nbsp;<button class="btn btn-primary btn-sm" v-on:click="getActiveDetail">详细信息</button> &nbsp;<button class="btn btn-primary btn-sm" v-on:click="getEnroll">报名信息</button></td></tr>',
             methods: {
-                GetActiveDetail: function () {
-
+                getActiveDetail: function () {
+                    window.location.href = "/active/" + this.active.ID;
                 },
-                GetEnroll: function () {
+                getEnroll: function () {
                     GetEnrolls(this.active.ID,this.active.Name);
+                },
+                modifyActive: function () {
+                    window.location.href = "/modifyactive/" + this.active.ID;
                 }
             }
         })
