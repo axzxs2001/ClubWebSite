@@ -7,7 +7,6 @@
     <style>
         .title-css {
             font-size: 1.6em;
-            vertical-align: middle;
         }
 
         .row {
@@ -29,12 +28,12 @@
             float: right;
             position: relative;
             right: 10px;
-            top:-8px;
-            background-color:transparent;
+            top: -0px;
+            background-color: transparent;
         }
     </style>
 }
-<div class="container">
+<div class="container" id="active-enroll">
     <div class="row">
         <div style="margin-bottom:-10px;margin-left:30px">
             <img src="~/images/active.png" width="150" height="60" />
@@ -43,6 +42,7 @@
     <div class="row">
         <div class="col-md-2 title-css">活动名称：<span class="mark">*</span></div>
         <div class="col-md-10">
+            <input type="hidden" value="@ViewData["activeid"]" id="activeid" name="activeid"/>
             <input class="form-control input-lg input-text" placeholder="活动名称" id="activename" name="activename" />
         </div>
     </div>
@@ -55,9 +55,8 @@
     <div class="row">
         <div class="col-md-2 title-css">开始日期：<span class="mark">*</span></div>
         <div class="col-md-4" id="sandbox-container">
-
             <div class="input-group date">
-                <input type="text" class="form-control  input-lg" id="begindate" name="begindate" placeholder="开始时间" value="">
+                <input type="text" class="form-control  input-lg" id="begindate" name="begindate" placeholder="开始时间">
                 <span class="input-group-addon">
                     <i class="glyphicon glyphicon-th"></i>
                 </span>
@@ -120,7 +119,7 @@
         <div class="col-md-2 title-css">结束时间：<span class="mark">*</span></div>
         <div class="col-md-4 title-css">
             <select class="form-control  input-lg" id="endtime" name="endtime">
-                <option selected value="05:00:00">05:00:00</option>  
+                <option selected value="05:00:00">05:00:00</option>
                 <option value="05:30:00">05:30:00</option>
                 <option value="06:00:00">06:00:00</option>
                 <option value="06:30:00">06:30:00</option>
@@ -181,13 +180,14 @@
     <div class="row">
         <div class="col-md-2 title-css">活动人数：<span class="mark">&nbsp;</span></div>
         <div class="col-md-10">
-            <input type="number" class="form-control input-lg input-text" placeholder="活动人数" id="peoplecount" name="peoplecount" />
+            <input type="number" class="form-control input-lg input-text" placeholder="活动人数" id="peoplecount" name="peoplecount" v-bind:value="active.PeopleNumber" />
         </div>
     </div>
     <div class="row">
         <div class="col-md-2 title-css">详细内容：<span class="mark">*</span></div>
         <div class="col-md-10">
             <script id="editor" type="text/plain" style="height:480px;">
+
             </script>
         </div>
     </div>
@@ -195,7 +195,7 @@
     <div class="row">
         <div class="col-md-2 title-css">是否报名：<span class="mark">&nbsp;</span></div>
         <div class="col-md-10">
-            <input type="checkbox" value="true" class="form-control" style="width:30px" id="isemroll" name="isemroll" />
+            <input type="checkbox" value="true" class="form-control" style="width:30px" id="isenroll" name="isenroll" />
         </div>
     </div>
 
@@ -218,12 +218,33 @@
     <script>
         $(function () {
             createEditor();
-
         });
         function createEditor() {
             UE.getEditor('editor').addListener('ready', function (editor) {
                 //加载内容
+                GetActive();
             });
+        }
+        function GetActive() {
+            //获取活动
+            $.get("/getactive", { id: $("#activeid").val() }, function (result) {
+
+                UE.getEditor('editor').setContent(result.Active.Content);
+                $("#activename").val(result.Active.Name);
+                $("#activeaddress").val(result.Active.Address);
+                var beginArr = result.Active.BeginTime.split(" ");
+                $("#begindate").val(beginArr[0]);
+                $("#begintime").val(beginArr[1]);
+                var endArr = result.Active.EndTime.split(" ");
+                $("#enddate").val(endArr[0]);
+                $("#endtime").val(endArr[1]);
+                $("#logo").attr("src", result.Active.Logo);
+                $("#logoPath").val(result.Active.Logo);
+                $("#peoplecount").val(result.Active.PeopleNumber);
+                if (result.Active.IsEnroll==true) {
+                    $("#isenroll").attr("checked", true);
+                }
+            })
         }
 
         //日历控件初始化
@@ -264,29 +285,31 @@
         }
         //保存活动
         function sava() {
+            console.log(111)
             //验证
             if (validate()) {
-                var isenroll = document.getElementById("isemroll").checked;
-                $.post("addactive", {
-                    activename: $("#activename").val(),
-                    activeaddress: $("#activeaddress").val(),
-                    begindate: $("#begindate").val(),
-                    begintime: $("#begintime").val(),
-                    enddate: $("#enddate").val(),
-                    endtime: $("#endtime").val(),
+                console.log(222)
+                var isenroll = document.getElementById("isenroll").checked;
+                $.post("/modifyactive", {
+                    activeID: $("#activeid").val(),
+                    activeName: $("#activename").val(),
+                    activeAddress: $("#activeaddress").val(),
+                    beginDate: $("#begindate").val(),
+                    beginTime: $("#begintime").val(),
+                    endDate: $("#enddate").val(),
+                    endTime: $("#endtime").val(),
                     content: UE.getEditor('editor').getContent(),
                     isEnroll: isenroll,
                     logoPath: $("#logoPath").val(),
                     peopleNumber: $("#peoplecount").val()
 
                 }, function (result) {
-
                     if (result) {
-                        alert("添加成功！")
-                        window.location.href = "/addactive";
+                        alert("修改成功！")
+                        window.location.href = "/myactives";
                     }
                     else {
-                        alert("添加失败！")
+                        alert("修改失败！")
                     }
                 })
             }

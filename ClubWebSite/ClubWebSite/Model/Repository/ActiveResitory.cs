@@ -101,7 +101,7 @@ namespace Asp.NetCore_WebPage.Model.Repository
         /// <returns></returns>
         public (bool BackResult, string Message) AddEnroll(Enroll enroll)
         {
-            var count = _dbContext.Enrolls.Where(s => s.Contact == enroll.Contact&&s.ActiveID==enroll.ActiveID).Count();
+            var count = _dbContext.Enrolls.Where(s => s.Contact == enroll.Contact && s.ActiveID == enroll.ActiveID).Count();
             var backResult = false;
             var message = "";
             if (count == 0)
@@ -130,5 +130,37 @@ namespace Asp.NetCore_WebPage.Model.Repository
             return _dbContext.Enrolls.Where(w => w.ActiveID == activeID).Count();
         }
 
+        /// <summary>
+        /// 修改活动
+        /// </summary>
+        /// <param name="newActive">新活动</param>
+        /// <returns></returns>
+        public bool ModifyActive(Active newActive)
+        {
+            var oldActive = _dbContext.Actives.SingleOrDefault(s => s.ID == newActive.ID);
+            if (oldActive == null)
+            {
+                return false;
+            }
+            else
+            {
+                oldActive.Address = newActive.Address;
+                oldActive.BeginTime = newActive.BeginTime;
+                oldActive.EndTime = newActive.EndTime;
+                oldActive.Content = newActive.Content;
+                oldActive.IsEnroll = newActive.IsEnroll;
+                if (!string.IsNullOrEmpty(newActive.Logo))
+                {
+                    oldActive.Logo = newActive.Logo;
+                }
+                oldActive.Name = newActive.Name;
+                oldActive.PeopleNumber = newActive.PeopleNumber;
+                oldActive.UserID = newActive.UserID;
+                var result = _dbContext.SaveChanges();
+                return result > 0;
+            }
+
+
+        }
     }
 }

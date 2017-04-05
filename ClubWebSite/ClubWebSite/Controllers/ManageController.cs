@@ -15,7 +15,7 @@ namespace ClubWebSite.Controllers
     /// <summary>
     /// 管理控制器
     /// </summary>
-    //[Authorize(Roles = "admin")]
+    [Authorize(Roles = "admin")]
     public class ManageController : Controller
     {
         /// <summary>
@@ -43,21 +43,21 @@ namespace ClubWebSite.Controllers
         /// <summary>
         /// 添加活动
         /// </summary>
-        /// <param name="activename"></param>
-        /// <param name="activeaddress"></param>
-        /// <param name="begindate"></param>
-        /// <param name="begintime"></param>
-        /// <param name="enddate"></param>
-        /// <param name="endtime"></param>
-        /// <param name="content"></param>
-        /// <param name="isEnroll"></param>
-        /// <param name="logoPath"></param>
-        /// <param name="peopleNumber"></param>
+        /// <param name="activeName">活动名称</param>
+        /// <param name="activeAddress">活动地址</param>
+        /// <param name="beginDate">开始日期</param>
+        /// <param name="beginTime">开始时间</param>
+        /// <param name="endDate">结束日期</param>
+        /// <param name="endTime">结束时间</param>
+        /// <param name="content">内容</param>
+        /// <param name="isEnroll">是否报名</param>
+        /// <param name="logoPath">海报</param>
+        /// <param name="peopleNumber">活动计划人数</param>
         /// <returns></returns>
 
         [HttpPost("addactive")]
 
-        public bool AddActive(string activename, string activeaddress, string begindate, string begintime, string enddate, string endtime, string content, bool isEnroll, string logoPath, int peopleNumber)
+        public bool AddActive(string activeName, string activeAddress, string beginDate, string beginTime, string endDate, string endTime, string content, bool isEnroll, string logoPath, int peopleNumber)
         {
             var userIDChars = User.Claims.SingleOrDefault(s => s.Type == ClaimTypes.Sid)?.Value;
             if (!string.IsNullOrEmpty(userIDChars))
@@ -65,10 +65,10 @@ namespace ClubWebSite.Controllers
                 var userID = Convert.ToInt32(userIDChars);
                 return _acctiveResitory.AddActive(new Active()
                 {
-                    Address = activeaddress,
-                    Name = activename,
-                    BeginTime = Convert.ToDateTime($"{begindate} {begintime}"),
-                    EndTime = Convert.ToDateTime($"{enddate} {endtime}"),
+                    Address = activeAddress,
+                    Name = activeName,
+                    BeginTime = Convert.ToDateTime($"{beginDate} {beginTime}"),
+                    EndTime = Convert.ToDateTime($"{endDate} {endTime}"),
                     Content = content,
                     IsEnroll = isEnroll,
                     Logo = logoPath,
@@ -134,7 +134,7 @@ namespace ClubWebSite.Controllers
             }
             return new JsonResult(actives, new Newtonsoft.Json.JsonSerializerSettings()
             {
-
+              DateFormatString="yyyy年MM月dd日 HH:mm:ss"
             });
         }
         /// <summary>
@@ -165,7 +165,48 @@ namespace ClubWebSite.Controllers
         }
 
 
-       
+        /// <summary>
+        /// 修改活动
+        /// </summary>
+        /// <param name="activeID">活动ID</param>
+        /// <param name="activeName">活动名称</param>
+        /// <param name="activeAddress">活动地址</param>
+        /// <param name="beginDate">开始日期</param>
+        /// <param name="beginTime">开始时间</param>
+        /// <param name="endDate">结束日期</param>
+        /// <param name="endTime">结束时间</param>
+        /// <param name="content">内容</param>
+        /// <param name="isEnroll">是否报名</param>
+        /// <param name="logoPath">海报</param>
+        /// <param name="peopleNumber">活动计划人数</param>
+        /// <returns></returns>
+        [HttpPost("modifyactive")]
+        public bool ModifyActive(int activeID,string activeName, string activeAddress, string beginDate, string beginTime, string endDate, string endTime, string content, bool isEnroll, string logoPath, int peopleNumber)
+        {
+            var userIDChars = User.Claims.SingleOrDefault(s => s.Type == ClaimTypes.Sid)?.Value;
+            if (!string.IsNullOrEmpty(userIDChars))
+            {
+                var userID = Convert.ToInt32(userIDChars);
+                return _acctiveResitory.ModifyActive(new Active()
+                {
+                    ID=activeID,
+                    Address = activeAddress,
+                    Name = activeName,
+                    BeginTime = Convert.ToDateTime($"{beginDate} {beginTime}"),
+                    EndTime = Convert.ToDateTime($"{endDate} {endTime}"),
+                    Content = content,
+                    IsEnroll = isEnroll,
+                    Logo = logoPath,
+                    PeopleNumber = peopleNumber,
+                    CreateTime = DateTime.Now,
+                    UserID = userID
 
+                });
+            }
+            else
+            {
+                return false;
+            }
+        }
     }
 }

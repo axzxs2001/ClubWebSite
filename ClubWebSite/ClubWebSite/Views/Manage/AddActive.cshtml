@@ -195,7 +195,7 @@
     <div class="row">
         <div class="col-md-2 title-css">是否报名：<span class="mark">&nbsp;</span></div>
         <div class="col-md-10">
-            <input type="checkbox" value="true" class="form-control" style="width:30px" id="isemroll" name="isemroll" />
+            <input type="checkbox" value="true" class="form-control" style="width:30px" id="isenroll" name="isenroll" />
         </div>
     </div>
 
@@ -266,7 +266,7 @@
         function sava() {
             //验证
             if (validate()) {
-                var isenroll = document.getElementById("isemroll").checked;
+                var isenroll = document.getElementById("isenroll").checked;
                 $.post("addactive", {
                     activename: $("#activename").val(),
                     activeaddress: $("#activeaddress").val(),

@@ -66,6 +66,11 @@ namespace Asp.NetCore_WebPage.Model.Repository
         /// <param name="activeID">活动ID</param>
         /// <returns></returns>
         int GetEnrollCountByActiveID(int activeID);
-
+        /// <summary>
+        /// 修改活动
+        /// </summary>
+        /// <param name="newActive">新活动</param>
+        /// <returns></returns>
+        bool ModifyActive(Active newActive);
     }
 }

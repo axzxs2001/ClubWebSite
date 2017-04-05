@@ -117,7 +117,7 @@ namespace ClubWebSite.Controllers
             var count = _acctiveResitory.GetEnrollCountByActiveID(id);
             return new JsonResult(new { Active = result, EnrollCount = count }, new Newtonsoft.Json.JsonSerializerSettings()
             {
-                DateFormatString = "yyyy年MM月HH时mm分"
+                DateFormatString = "yyyy年MM月dd日 HH:mm:00"
             });
         }
 
