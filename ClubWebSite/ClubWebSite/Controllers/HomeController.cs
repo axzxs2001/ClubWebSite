@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 using Asp.NetCore_WebPage.Model.Repository;
 using Microsoft.AspNetCore.Authorization;
 using System.Security.Claims;
+using ClubWebSite.Model.DataModel;
 
 namespace ClubWebSite.Controllers
 {
@@ -94,11 +95,56 @@ namespace ClubWebSite.Controllers
 
             return View();
         }
+        /// <summary>
+        /// 活动报名页
+        /// </summary>
+        /// <returns></returns>
+        [HttpGet("active/{id}")]
+        public IActionResult Active(int? id)
+        {
+            ViewData["id"] = id;
+            return View();
+        }
+        /// <summary>
+        /// 按照ID获取活动信息
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        [HttpGet("getactive")]
+        public JsonResult GetActive(int id)
+        {
+            var result=_acctiveResitory.GetActive(id);
+            var count = _acctiveResitory.GetEnrollCountByActiveID(id);
+            return new JsonResult(new { Active = result, EnrollCount = count }, new Newtonsoft.Json.JsonSerializerSettings()
+            {
+                DateFormatString = "yyyy年MM月HH时mm分"
+            });
+        }
 
+        /// <summary>
+        /// 添加报名信息
+        /// </summary>
+        /// <param name="enroll">报名信息</param>
+        /// <returns></returns>
+        [HttpPost("enroll")]
+        public JsonResult SavaEnroll(Enroll enroll)
+        {
+            var result = _acctiveResitory.AddEnroll(enroll);
+            return new JsonResult(new { BackResult = result.BackResult, Message = result.Message }, new Newtonsoft.Json.JsonSerializerSettings()
+            {
+            });
+        }
+
+        /// <summary>
+        /// 错误
+        /// </summary>
+        /// <returns></returns>
         public IActionResult Error()
         {
             return View();
         }
+
+
         #region 登录页
         /// <summary>
         /// 登录页

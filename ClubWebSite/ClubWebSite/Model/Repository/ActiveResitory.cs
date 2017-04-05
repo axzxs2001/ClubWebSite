@@ -65,7 +65,7 @@ namespace Asp.NetCore_WebPage.Model.Repository
         /// <returns></returns>
         public List<Active> GetActivesByUserID(int userID)
         {
-            return _dbContext.Actives.Where(w => w.UserID == userID).OrderByDescending(o=>o.CreateTime).ToList();
+            return _dbContext.Actives.Where(w => w.UserID == userID).OrderByDescending(o => o.CreateTime).ToList();
         }
 
         /// <summary>
@@ -91,10 +91,44 @@ namespace Asp.NetCore_WebPage.Model.Repository
         /// <returns></returns>
         public List<Active> GetNoValidityActives()
         {
-            return _dbContext.Actives.Where(w => w.EndTime> DateTime.Now).Take(60).ToList();
+            return _dbContext.Actives.Where(w => w.EndTime > DateTime.Now).Take(60).ToList();
         }
 
-   
+        /// <summary>
+        /// 添加报名信息
+        /// </summary>
+        /// <param name="enroll">报名信息</param>
+        /// <returns></returns>
+        public (bool BackResult, string Message) AddEnroll(Enroll enroll)
+        {
+            var count = _dbContext.Enrolls.Where(s => s.Contact == enroll.Contact&&s.ActiveID==enroll.ActiveID).Count();
+            var backResult = false;
+            var message = "";
+            if (count == 0)
+            {
+                enroll.CreateTime = DateTime.Now;
+                _dbContext.Enrolls.Add(enroll);
+                var result = _dbContext.SaveChanges();
+                backResult = result > 0 ? true : false;
+            }
+            else
+            {
+                backResult = false;
+                message = "该手机号已报过名，不能重复报名！";
+            }
+            return (backResult, message);
+
+        }
+
+        /// <summary>
+        /// 按照活动ID查询报表的总数
+        /// </summary>
+        /// <param name="activeID">活动ID</param>
+        /// <returns></returns>
+        public int GetEnrollCountByActiveID(int activeID)
+        {
+            return _dbContext.Enrolls.Where(w => w.ActiveID == activeID).Count();
+        }
 
     }
 }

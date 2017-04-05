@@ -52,5 +52,20 @@ namespace Asp.NetCore_WebPage.Model.Repository
         /// </summary>
         /// <returns></returns>
         List<Active> GetNoValidityActives();
+
+        /// <summary>
+        /// 添加报名信息
+        /// </summary>
+        /// <param name="enroll">报名信息</param>
+        /// <returns></returns>
+        (bool BackResult, string Message) AddEnroll(Enroll enroll);
+
+        /// <summary>
+        /// 按照活动ID查询报表的总数
+        /// </summary>
+        /// <param name="activeID">活动ID</param>
+        /// <returns></returns>
+        int GetEnrollCountByActiveID(int activeID);
+
     }
 }
