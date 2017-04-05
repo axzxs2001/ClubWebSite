@@ -4,56 +4,58 @@
 @section css
 {
     <style>
-        .activeDiv {
-            background-color: #f7f5f5;
+        .active_div {
             margin-top: 3px;
+            background-color: #f7f5f5;
         }
 
-        .history-a {
+            .activeDiv .col-md-6 {
+            }
+
+        .history_a {
             font-size: 1.2em;
-           
         }
     </style>
 }
 <div class="container">
     <div class="row">
-        dotnet社区活动
+    
+            <img src="~/images/big01.png" style="width:100%" />
+      
     </div>
     <div class="row">
         <div class="col-md-8">
             <div id="active-row">
-                @*<div class="row">
-                    <div class="col-lg-6">
-                        <img v-bind:src="active.Logo" width="380" style="border:solid 1px #F0F0F0" />
-                    </div>
-                    <div class="col-lg-6">
-                        <h3>sss</h3>
-                        <p>{{active.Address}}</p>
-                        <p>开始时间：{{active.BeginTime}} 结束时间：{{active.EndTime}}</p>
-                    </div>
-                </div>*@
-               <div>
+                <div>
                     <active-row v-for="active in actives" v-bind:active="active"></active-row>
                 </div>
             </div>
         </div>
         <div class="col-md-4">
-            <div id="history-active-row" style="margin-left:10px;margin-top:-20px;">
-                <div class="row"><div class="col-lg-6"><h3>往届活动</h3></div></div>
+            <div id="history-active-row" style="padding-left:5px;">
+                <div class="row">
+                    <div style="background-color:#f7f5f5" class="col-md-12"><h3>往届活动</h3></div>
+                </div>
                 <history-active-row v-for="active in actives" v-bind:active="active"></history-active-row>
-
             </div>
         </div>
     </div>
-
-
-
 </div>
 @section scripts{
     <script>
+        function PostEnroll(activeID)
+        {
+            alert(activeID);
+        }
+
         Vue.component("active-row", {
             props: ["active"],
-            template: '<div class="row activeDiv"><div class="col-lg-6"><img v-bind:src="active.Logo" width="380"  style="border:solid 1px #F0F0F0" /></div><div class="col-lg-6"><h3>{{ active.Name }}</h3> <p>地址：{{active.Address}}</p><p>开始时间：{{active.BeginTime}}}</p><p>结束时间：{{active.EndTime}}</p> <div class="row" style="text-align:right;"><button class="btn btn-lg btn-success" style="margin-right:20px;width:200px;font-size:1.6em;" onclick="sava()"> <span class="glyphicon glyphicon-ok" aria-hidden="true"></span>&nbsp;&nbsp;报&nbsp;名 </button></div></div></div>'
+            template: '<div class="row active_div"><div class="col-md-6"><img v-bind:src="active.Logo" style="margin-left:-15px;" width="100%"/></div><div class="col-md-6"><h3>{{ active.Name }}</h3> <p><b>地址：{{active.Address}}</b></p><p>开始时间：{{active.BeginTime}}</p><p>结束时间：{{active.EndTime}}</p> <div class="row" style="text-align:right;"><button class="btn btn-lg btn-success" style="margin-right:20px;width:200px;font-size:1.6em;"  v-on:click="Enroll"> <span class="glyphicon glyphicon-ok" aria-hidden="true"></span>&nbsp;&nbsp;报&nbsp;名 </button></div></div></div>',
+            methods: {
+                Enroll: function () {
+                    PostEnroll(this.active.ID);
+                }
+            }
         })
         $.get("validactives", {}, function (result) {
             new Vue({
@@ -63,7 +65,7 @@
         })
         Vue.component("history-active-row", {
             props: ["active"],
-            template: '<div class="row"><div class="col-lg-6"><a href="\" class="history-a">{{ active.Name }}</a></div></div>'
+            template: ' <div class="row"><div class="col-md-12" style="background-color:#f7f5f5;"><a href="\" class="history_a">{{ active.Name }}</a></div></div>'
         })
         $.get("hostoryactives", {}, function (result) {
             new Vue({

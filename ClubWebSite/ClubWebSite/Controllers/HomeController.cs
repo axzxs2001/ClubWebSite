@@ -66,7 +66,7 @@ namespace ClubWebSite.Controllers
             var result = _acctiveResitory.GetValidityActives();
             return new JsonResult(result, new Newtonsoft.Json.JsonSerializerSettings()
             {
-                Formatting = Newtonsoft.Json.Formatting.None
+                DateFormatString ="yyyy年MM月HH时mm分"
             });
         }
         /// <summary>
@@ -79,7 +79,7 @@ namespace ClubWebSite.Controllers
             var result = _acctiveResitory.GetNoValidityActives();
             return new JsonResult(result, new Newtonsoft.Json.JsonSerializerSettings()
             {
-                Formatting = Newtonsoft.Json.Formatting.None
+                DateFormatString = "yyyy年MM月HH时mm分"
             });
         }
 
