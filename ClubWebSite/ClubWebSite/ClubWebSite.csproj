@@ -16,6 +16,8 @@
   <ItemGroup>
     <Content Include="wwwroot\images\active.png" />
     <Content Include="wwwroot\images\big01.png" />
+    <Content Include="wwwroot\images\haibao.jpg" />
+    <Content Include="wwwroot\images\log.jpg" />
     <Content Include="wwwroot\js\jquery.form.js" />
     <Content Include="wwwroot\lib\ueditor\dialogs\anchor\anchor.html" />
     <Content Include="wwwroot\lib\ueditor\dialogs\attachment\attachment.css" />

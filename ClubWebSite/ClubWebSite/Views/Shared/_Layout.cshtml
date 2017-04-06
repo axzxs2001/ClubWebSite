@@ -29,26 +29,29 @@
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </button>
-                <a asp-area="" asp-controller="Home" asp-action="Index" class="navbar-brand">dotnet社区</a>
+                <a asp-area="" asp-controller="Home" asp-action="Index" class="navbar-brand"><span style="color:white;">dotnet社区联盟</span> </a>
             </div>
             <div class="navbar-collapse collapse">
-                <ul class="nav navbar-nav">
-                    <li><a asp-area="" asp-controller="Home" asp-action="Index">全部活动</a></li>
-                    <li><a asp-area="" asp-controller="Home" asp-action="About">添加活动</a></li>
-                    <li><a asp-area="" asp-controller="Home" asp-action="Contact">Contact</a></li>
-                </ul>
-                <ul class="nav navbar-nav navbar-right">
-                    <li role="presentation"><a href="/ModifyPassword">当前用户：@User.Identity.Name</a></li>
-                    <li role="presentation"><a href="/login">注销</a></li>
-                </ul>
+                @if (@User.Identity.Name != null)
+                {
+                    <ul class="nav navbar-nav">
+                        <li><a asp-area="" asp-controller="Manage" asp-action="MyActives">我的活动</a></li>
+                        <li><a asp-area="" asp-controller="Manage" asp-action="AddActive">发布活动</a></li>
+                    </ul>
+                    <ul class="nav navbar-nav navbar-right">
+
+                        <li role="presentation"><a href="/ModifyPassword">当前用户：@User.Identity.Name</a></li>
+                        <li role="presentation"><a href="/login">注销</a></li>
+                    </ul>
+                }
             </div>
         </div>
     </nav>
     <div class="container body-content">
         @RenderBody()
         <hr />
-        <footer>
-            <p>&copy; 2017 - dotnet社区</p>
+        <footer style="text-align:right;">
+            &copy;2017 &nbsp;&nbsp;<img src="~/images/log.jpg" width="70" /> 
         </footer>
     </div>
 

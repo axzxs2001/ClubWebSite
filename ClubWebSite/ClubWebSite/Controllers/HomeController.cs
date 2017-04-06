@@ -190,7 +190,7 @@ namespace ClubWebSite.Controllers
                 HttpContext.Authentication.SignOutAsync("loginvalidate");
                 HttpContext.Authentication.SignInAsync("loginvalidate", new ClaimsPrincipal(new ClaimsIdentity(claims, "Cookie")));
                 HttpContext.User = new ClaimsPrincipal(new ClaimsIdentity(claims));
-                return new RedirectResult(returnUrl == null ? "/" : returnUrl);
+                return new RedirectResult(returnUrl == null ? "/myactives" : returnUrl);
             }
             else
             {
