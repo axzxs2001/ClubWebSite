@@ -34,7 +34,7 @@ namespace ClubWebSite
         {
             services.AddOptions();
             //添加数据操作
-            var connection = Configuration.GetConnectionString("DefaultConnection");
+            var connection =string.Format( Configuration.GetConnectionString("DefaultConnection"),System.IO.Directory.GetCurrentDirectory());
             //添加数据实体
             services.AddDbContext<ClubWebSiteDbContext>(options =>options.UseSqlite(connection));
 
@@ -53,6 +53,7 @@ namespace ClubWebSite
            
             loggerFactory.AddConsole(Configuration.GetSection("Logging"));
             loggerFactory.AddDebug();
+        
             //为验证添加中间件
             app.UseCookieAuthentication(new CookieAuthenticationOptions
             {
