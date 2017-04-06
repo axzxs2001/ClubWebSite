@@ -91,7 +91,7 @@ namespace Asp.NetCore_WebPage.Model.Repository
         /// <returns></returns>
         public List<Active> GetNoValidityActives()
         {
-            return _dbContext.Actives.Where(w => w.EndTime > DateTime.Now).Take(60).ToList();
+            return _dbContext.Actives.Where(w => w.EndTime< DateTime.Now).Take(60).ToList();
         }
 
         /// <summary>
