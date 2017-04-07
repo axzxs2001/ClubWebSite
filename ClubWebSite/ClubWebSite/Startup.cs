@@ -35,6 +35,7 @@ namespace ClubWebSite
             services.AddOptions();
             //添加数据操作
             var connection =string.Format( Configuration.GetConnectionString("DefaultConnection"),System.IO.Directory.GetCurrentDirectory());
+            Console.WriteLine($"Connecting{connection}");
             //添加数据实体
             services.AddDbContext<ClubWebSiteDbContext>(options =>options.UseSqlite(connection));
 

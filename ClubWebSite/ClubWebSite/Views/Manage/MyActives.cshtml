@@ -49,11 +49,11 @@
             template: '<tr><td>{{enroll.ID}}</td><td>{{enroll.Name}}</td><td>{{enroll.Email}}</td><td>{{enroll.Contact}}</td><td>{{enroll.CreateTime}}</td></tr>'
         })
         //按活动ID获取报名信息
-        function GetEnrolls(activeid,activename) {
+        function GetEnrolls(activeid, activename) {     
             //设置组件
-            $("#enroll_tbaody").html(' <tr is="enroll-row" v-for="enroll in enrolls" v-bind:enroll="enroll"></tr>');
+            $("#enroll_tbaody").html('<tr is="enroll-row" v-for="enroll in enrolls" v-bind:enroll="enroll"></tr>');
             $("#activename_span").html("{{activename}}")
-            $.get("getactiveenrolls", { activeID: activeid }, function (result) {
+            $.get("getactiveenrolls", { activeID: activeid }, function (result) {        
                 new Vue({
                     el: "#enrolls-row",
                     data:
