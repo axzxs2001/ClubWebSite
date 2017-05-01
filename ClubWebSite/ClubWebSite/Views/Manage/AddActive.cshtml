@@ -304,7 +304,7 @@
                     $("#logo").attr("src", result);
                     $("#logoPath").val(result);
                 },
-                error: function (data) { alert(data); },//请求失败的函数  
+                error: function (data) { console.log(data); },//请求失败的函数  
                 async: true
             });
 

@@ -91,16 +91,20 @@ namespace ClubWebSite.Controllers
         [HttpPost("uploadimage")]
         public string UploadImg([FromServices]IHostingEnvironment env)
         {
+ 
             var files = HttpContext.Request.Form.Files;
             int i = 0;
             var imagePath = "";
+     
             if (files.Count > 0)
             {
+               
                 var file = files[0];
                 imagePath = @"\upload\myimage\" + DateTime.Now.ToString("yyyyMMddhhmmssfff") + (i++).ToString() + ".jpg";
                 var stream = file.OpenReadStream();
                 var bytes = new byte[stream.Length];
                 stream.Read(bytes, 0, bytes.Length);
+            
                 var filestream = new FileStream(env.WebRootPath + imagePath, FileMode.CreateNew, FileAccess.ReadWrite);
                 filestream.Write(bytes, 0, bytes.Length);
                 filestream.Flush();
