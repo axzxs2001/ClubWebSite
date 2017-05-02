@@ -10,6 +10,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Content Remove="wwwroot/images\log - 副本.jpg" />
     <Content Remove="wwwroot/upload\myimage\201704031018092350.jpg" />
   </ItemGroup>
 
