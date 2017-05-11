@@ -106,6 +106,17 @@ namespace ClubWebSite.Controllers
             return View();
         }
         /// <summary>
+        /// 历史活动页
+        /// </summary>
+        /// <returns></returns>
+        [HttpGet("hisactive/{id}")]
+        public IActionResult HisActive(int? id)
+        {
+            ViewData["id"] = id;
+            return View();
+        }
+
+        /// <summary>
         /// 按照ID获取活动信息
         /// </summary>
         /// <param name="id"></param>

@@ -68,7 +68,7 @@
         })
         Vue.component("history-active-row", {
             props: ["active"],
-            template: ' <div class="row"><div class="col-md-12" style="background-color:#f7f5f5;"><a href="\" class="history-a">{{ active.Name }}</a></div></div>'
+            template: ' <div class="row"><div class="col-md-12" style="background-color:#f7f5f5;"><a v-bind:href="\'/hisactive/\'+active.ID" class="history-a">{{ active.Name }}</a></div></div>'
         })
         $.get("hostoryactives", {}, function (result) {
             new Vue({
