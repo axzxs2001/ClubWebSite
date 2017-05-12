@@ -70,7 +70,7 @@
         Vue.component("history-active-row", {
             props: ["active"],
             template: '<div class="panel panel-default" style="margin-top:2px;margin-bottom:0">\
-            <div class="panel-heading" > 往届活动</div>\
+            <div class="panel-heading" ><span style="font-size:18px"><b> 往届活动</b><span></div>\
             <ul class="list-group">\
                 <li class="list-group-item"><a v-bind:href="\'/hisactive/\'+active.ID" class="history-a">{{ active.Name }}</a></li>\
             </ul>\
