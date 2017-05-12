@@ -100,7 +100,7 @@ namespace ClubWebSite.Controllers
             {
                
                 var file = files[0];
-                imagePath = @"\upload\myimage\" + DateTime.Now.ToString("yyyyMMddhhmmssfff") + (i++).ToString() + ".jpg";
+                imagePath = @"/upload/myimage/" + DateTime.Now.ToString("yyyyMMddhhmmssfff") + (i++).ToString() + ".jpg";
                 var stream = file.OpenReadStream();
                 var bytes = new byte[stream.Length];
                 stream.Read(bytes, 0, bytes.Length);
