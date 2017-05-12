@@ -17,7 +17,7 @@ namespace ClubWebSite
                 .UseContentRoot(Directory.GetCurrentDirectory())
                 .UseIISIntegration()
                 .UseStartup<Startup>()
-                .UseUrls("http://*:888")
+                .UseUrls("http://*:8989")
                 .UseApplicationInsights()
                 .Build();
 
