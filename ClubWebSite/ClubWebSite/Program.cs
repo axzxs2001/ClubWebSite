@@ -10,8 +10,7 @@ namespace ClubWebSite
     public class Program
     {
         public static void Main(string[] args)
-        {           
-
+        {
             var host = new WebHostBuilder()
                 .UseKestrel()
                 .UseContentRoot(Directory.GetCurrentDirectory())
@@ -20,7 +19,7 @@ namespace ClubWebSite
                 .UseUrls("http://*:8989")
                 .UseApplicationInsights()
                 .Build();
-
+            //启动
             host.Run();
         }
     }
