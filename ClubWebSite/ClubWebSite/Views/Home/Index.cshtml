@@ -37,9 +37,16 @@
         </div>
         <div class="col-md-4" style="padding-left:0px;padding-right:0px;">
             <div id="history-active-row">
-                <history-active-row v-for="active in actives" v-bind:active="active"></history-active-row>
+                <div class="panel panel-default" style="margin-top:2px;margin-bottom:0">
+
+                    <div class="panel-heading"><span style="font-size:18px"><b> 往届活动</b></span></div>
+                    <ul class="list-group">
+
+                        <history-active-row v-for="active in actives" v-bind:active="active"></history-active-row>
+                    </ul>
+                </div>
             </div>
-        </div>
+            </div>
     </div>
 </div>
 @section scripts{
@@ -69,12 +76,7 @@
         })
         Vue.component("history-active-row", {
             props: ["active"],
-            template: '<div class="panel panel-default" style="margin-top:2px;margin-bottom:0">\
-            <div class="panel-heading" ><span style="font-size:18px"><b> 往届活动</b><span></div>\
-            <ul class="list-group">\
-                <li class="list-group-item"><a v-bind:href="\'/hisactive/\'+active.ID" class="history-a">{{ active.Name }}</a></li>\
-            </ul>\
-            </div>'
+            template: ' <li class="list-group-item"><a v-bind:href="\'/hisactive/\'+active.ID" class="history-a">{{ active.Name }}</a></li>'
 
         })
         $.get("hostoryactives", {}, function (result) {
