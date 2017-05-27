@@ -83,18 +83,6 @@ namespace ClubWebSite.Controllers
                 DateFormatString = "yyyy年MM月dd日HH时mm分"
             });
         }
-
-        /// <summary>
-        /// 详细信息
-        /// </summary>
-        /// <returns></returns>
-        [HttpGet("item/{id}")]
-        public IActionResult Details(int id)
-        {
-            ViewData["Message"] = "Your application description page." + id;
-
-            return View();
-        }
         /// <summary>
         /// 活动报名页
         /// </summary>
