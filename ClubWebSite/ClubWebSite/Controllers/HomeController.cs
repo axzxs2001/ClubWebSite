@@ -7,6 +7,7 @@ using Asp.NetCore_WebPage.Model.Repository;
 using Microsoft.AspNetCore.Authorization;
 using System.Security.Claims;
 using ClubWebSite.Model.DataModel;
+using Microsoft.AspNetCore.Authentication;
 
 namespace ClubWebSite.Controllers
 {
@@ -161,7 +162,7 @@ namespace ClubWebSite.Controllers
                 ViewBag.returnUrl = returnUrl;
             }
             ViewBag.error = null;
-            HttpContext.Authentication.SignOutAsync("loginvalidate");
+            HttpContext.SignOutAsync("loginvalidate");
             return View();
         }
         /// <summary>
@@ -186,8 +187,8 @@ namespace ClubWebSite.Controllers
                     new Claim(ClaimTypes.Name,user.Name),
                     new Claim(ClaimTypes.Sid,user.ID.ToString())
                  };
-                HttpContext.Authentication.SignOutAsync("loginvalidate");
-                HttpContext.Authentication.SignInAsync("loginvalidate", new ClaimsPrincipal(new ClaimsIdentity(claims, "Cookie")));
+                HttpContext.SignOutAsync("loginvalidate");
+                HttpContext.SignInAsync("loginvalidate", new ClaimsPrincipal(new ClaimsIdentity(claims, "Cookie")));
                 HttpContext.User = new ClaimsPrincipal(new ClaimsIdentity(claims));
                 return new RedirectResult(returnUrl == null ? "/myactives" : returnUrl);
             }

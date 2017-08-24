@@ -12,23 +12,19 @@ using Asp.NetCore_WebPage.Model.Repository;
 using UEditorNetCore;
 using ClubWebSite.Model.DataModel;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.AspNetCore.Http;
 
 namespace ClubWebSite
 {
     public class Startup
     {
-        public Startup(IHostingEnvironment env)
+        public Startup(IConfiguration configuration)
         {
-            var builder = new ConfigurationBuilder()
-                .SetBasePath(env.ContentRootPath)
-                .AddJsonFile("appsettings.json", optional: false, reloadOnChange: true)
-                .AddJsonFile($"appsettings.{env.EnvironmentName}.json", optional: true)
-                .AddEnvironmentVariables();
-            Configuration = builder.Build();
-          
+            Configuration = configuration;
+
         }
 
-        public IConfigurationRoot Configuration { get; }
+        public IConfiguration Configuration { get; }
       
         public void ConfigureServices(IServiceCollection services)
         {
@@ -45,6 +41,23 @@ namespace ClubWebSite
             //注入用户仓储类
             services.AddTransient<IUserResitory, UserResitory>();
 
+            //注入验证 2.0
+            services.AddAuthentication(options =>
+            {
+                options.DefaultChallengeScheme = "loginvalidate";
+                options.DefaultSignInScheme = "loginvalidate";
+                options.DefaultAuthenticateScheme = "loginvalidate";
+            })
+            .AddCookie("loginvalidate", m =>
+            {
+                m.LoginPath = new PathString("/login");
+                m.AccessDeniedPath = new PathString("/login");
+                m.LogoutPath = new PathString("/login");
+                m.Cookie.Path = "/";
+            });
+
+
+
             services.AddUEditorService();
             services.AddMvc();
         }
@@ -55,19 +68,19 @@ namespace ClubWebSite
             loggerFactory.AddConsole(Configuration.GetSection("Logging"));
             loggerFactory.AddDebug();
         
-            //为验证添加中间件
-            app.UseCookieAuthentication(new CookieAuthenticationOptions
-            {
-                //验证方案名称
-                AuthenticationScheme = "loginvalidate",
-                //没有权限时导航的登录action
-                LoginPath = new Microsoft.AspNetCore.Http.PathString("/login"),
-                //访问被拒绝后的acion
-                AccessDeniedPath = new Microsoft.AspNetCore.Http.PathString("/login"),
-                AutomaticAuthenticate = true,
-                AutomaticChallenge = true,
-                SlidingExpiration = true
-            });
+            ////为验证添加中间件
+            //app.UseCookieAuthentication(new CookieAuthenticationOptions
+            //{
+            //    //验证方案名称
+            //    AuthenticationScheme = "loginvalidate",
+            //    //没有权限时导航的登录action
+            //    LoginPath = new Microsoft.AspNetCore.Http.PathString("/login"),
+            //    //访问被拒绝后的acion
+            //    AccessDeniedPath = new Microsoft.AspNetCore.Http.PathString("/login"),
+            //    AutomaticAuthenticate = true,
+            //    AutomaticChallenge = true,
+            //    SlidingExpiration = true
+            //});
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
@@ -77,9 +90,9 @@ namespace ClubWebSite
             {
                 app.UseExceptionHandler("/Home/Error");
             }
-
             app.UseStaticFiles();
 
+            app.UseAuthentication();
             app.UseMvc(routes =>
             {
                 routes.MapRoute(
