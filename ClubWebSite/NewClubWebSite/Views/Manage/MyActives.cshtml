@@ -1,0 +1,95 @@
+﻿@{
+    ViewData["Title"] = "我发布的活动";
+}
+<div class="container">
+    <div id="actives-row" class="row">
+        <table class="table table-striped table-hover" style="font-size:1.2em;">
+            <thead>
+                <tr><th>编号</th><th>名称</th><th>开始时间</th><th>结束时间</th><th>是否报名</th><th>人数报名</th><th style="width:246px">操作</th></tr>
+            </thead>
+            <tbody>
+                <tr is="active-row" v-for="active in actives" v-bind:active="active"></tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<!-- Modal -->
+<div class="modal fade" id="enroll_div" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+    <div  id="enrolls-row"  class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="myModalLabel">活动：《<span id="activename_span"></span>》报名信息</h4>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <table class="table table-bordered table-hover">
+                        <thead>
+                            <tr><th>编号</th><th>名称</th><th>邮箱地址</th><th>联系方式</th><th>创建时间</th></tr>
+                        </thead>
+                        <tbody id="enroll_tbaody">
+                           
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-danger" data-dismiss="modal">关闭</button>
+
+            </div>
+        </div>
+    </div>
+</div>
+@section scripts{
+    <script>
+        //报名组件
+        Vue.component("enroll-row", {
+            props: ["enroll"],
+            template: '<tr><td>{{enroll.ID}}</td><td>{{enroll.Name}}</td><td>{{enroll.Email}}</td><td>{{enroll.Contact}}</td><td>{{enroll.CreateTime}}</td></tr>'
+        })
+        //按活动ID获取报名信息
+        function GetEnrolls(activeid, activename) {     
+            //设置组件
+            $("#enroll_tbaody").html('<tr is="enroll-row" v-for="enroll in enrolls" v-bind:enroll="enroll"></tr>');
+            $("#activename_span").html("{{activename}}")
+            $.get("getactiveenrolls", { activeID: activeid }, function (result) {        
+                new Vue({
+                    el: "#enrolls-row",
+                    data:
+                    {
+                        enrolls: result,
+                        activename: activename
+                    }
+                });
+                //显示报名信息
+                $('#enroll_div').modal("show");
+            })
+        }
+
+        //活动组件
+        Vue.component("active-row", {
+            props: ["active"],
+            template: '<tr><td>{{active.ID}}</td><td>{{active.Name}}</td><td>{{active.BeginTime}}</td><td>{{active.EndTime}}</td><td>{{active.IsEnroll}}</td><td>{{active.PeopleNumber}}</td><td><button class="btn btn-primary" v-on:click="modifyActive">修改</button>&nbsp;<button class="btn btn-primary" v-on:click="getActiveDetail">详细信息</button>&nbsp;<button class="btn btn-primary" v-on:click="getEnroll">报名信息</button></td></tr>',
+            methods: {
+                getActiveDetail: function () {
+                    window.location.href = "/active/" + this.active.ID;
+                },
+                getEnroll: function () {
+                    GetEnrolls(this.active.ID,this.active.Name);
+                },
+                modifyActive: function () {
+                    window.location.href = "/modifyactive/" + this.active.ID;
+                }
+            }
+        })
+        //获取活动信息
+        $.get("getmyactives", {}, function (result) {
+            new Vue({
+                el: "#actives-row",
+                data: { actives: result }
+            })
+        })
+    </script>
+}
+

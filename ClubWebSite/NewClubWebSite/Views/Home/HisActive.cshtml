@@ -1,0 +1,104 @@
+﻿@{
+    ViewData["Title"] = "报名";
+}
+@section css
+{
+    <style>
+        .col-md-12, .col-md-6, .col-md-5 {
+            font-size: 1.6em;
+            margin-top: 5px;
+        }
+
+        .col-md-8 {
+            position: relative;
+        }
+
+        .title-css {
+            font-size: 1em;
+            vertical-align: middle;
+            height: 40px;
+            line-height: 40px;
+        }
+
+            .title-css span {
+                display: block;
+                float: right;
+                position: relative;
+                right: 30px;
+                background-color: transparent;
+            }
+
+        .mark {
+            color: red;
+            font-size: 1.6em;
+            background-color: white;
+        }
+
+        .row {
+            margin-top: 10px
+        }
+        [v-cloak] {
+            display: none;
+        }
+    </style>
+}
+<div class="container" id="active-enroll" v-cloak>
+    <div class="row">
+        <div class="col-md-12">
+            <img v-bind:src="active.Logo" width="100%" />
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-12">
+            <input type="hidden" value="@(ViewData["id"])" id="activeid" />
+            活动名称：<b>{{active.Name}}</b>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-12">
+         
+            活动地址：<span>{{active.Address}}</span>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-6">
+          
+            开始时间：<span>{{active.BeginTime}}</span>
+        </div>
+
+        <div class="col-md-6">
+
+            结束时间：<span>{{active.EndTime}}</span>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-6">   
+            活动人数：<span>{{active.PeopleNumber}}</span>
+        </div>
+
+        <div class="col-md-6">
+            报名人数：<b>{{count}}</b>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-12">
+     
+            详细内容：
+            <div v-html="active.Content" style="padding:10px"></div>
+        </div>
+    </div>
+
+</div>
+@section scripts{
+    <script>
+        //获取活动信息
+        $.get("/getactive", { id: $("#activeid").val() }, function (result) {
+            new Vue({
+                el: "#active-enroll",
+                data: { active: result.Active, count: result.EnrollCount }
+            })
+        })
+      
+    </script>
+}
+

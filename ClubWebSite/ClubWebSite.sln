@@ -1,11 +1,13 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
-VisualStudioVersion = 15.0.26228.10
+VisualStudioVersion = 15.0.26730.16
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ClubWebSite", "ClubWebSite\ClubWebSite.csproj", "{1477E3E0-A6F2-4BBD-A140-7F52918D139A}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ClubWebSite", "ClubWebSite\ClubWebSite.csproj", "{1477E3E0-A6F2-4BBD-A140-7F52918D139A}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "UEditorNetCore", "UEditorNetCore\UEditorNetCore.csproj", "{A7B1DB20-ACDF-4962-9C04-D9684987AB15}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NewClubWebSite", "NewClubWebSite\NewClubWebSite.csproj", "{96E3D82F-FB33-4BC1-BDF2-22127E0F3E1E}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -21,8 +23,15 @@ Global
 		{A7B1DB20-ACDF-4962-9C04-D9684987AB15}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{A7B1DB20-ACDF-4962-9C04-D9684987AB15}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{A7B1DB20-ACDF-4962-9C04-D9684987AB15}.Release|Any CPU.Build.0 = Release|Any CPU
+		{96E3D82F-FB33-4BC1-BDF2-22127E0F3E1E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{96E3D82F-FB33-4BC1-BDF2-22127E0F3E1E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{96E3D82F-FB33-4BC1-BDF2-22127E0F3E1E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{96E3D82F-FB33-4BC1-BDF2-22127E0F3E1E}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {17DAEB0F-060D-4EF4-B935-9D4852D52068}
 	EndGlobalSection
 EndGlobal

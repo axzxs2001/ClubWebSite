@@ -1,0 +1,51 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - dotnet社区联盟</title>
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/css/site.css" />
+    @RenderSection("css", required: false)
+</head>
+<body>
+    <nav class="navbar navbar-inverse navbar-fixed-top">
+        <div class="container">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a asp-area="" asp-controller="Home" asp-action="Index" class="navbar-brand"><span style="color:white;">dotnet社区联盟</span> </a>
+            </div>
+            <div class="navbar-collapse collapse">
+                @if (@User.Identity.Name != null)
+                {
+                    <ul class="nav navbar-nav">
+                        <li><a asp-area="" asp-controller="Manage" asp-action="MyActives">我的活动</a></li>
+                        <li><a asp-area="" asp-controller="Manage" asp-action="AddActive">发布活动</a></li>
+                    </ul>
+                    <ul class="nav navbar-nav navbar-right">
+
+                        <li role="presentation"><a href="/ModifyPassword">当前用户：@User.Identity.Name</a></li>
+                        <li role="presentation"><a href="/login">注销</a></li>
+                    </ul>
+                }
+            </div>
+        </div>
+    </nav>
+    <div class="container body-content">
+        @RenderBody()
+        <hr style="height:1px;border:none;border-top:1px solid #b7b5b5;"/>
+        <footer style="text-align:right;">
+            &copy;2017 &nbsp;&nbsp;<img src="~/images/log.png" width="70" />
+        </footer>
+    </div>
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.min.js"></script>
+    <script src="~/lib/vue/dist/vue.min.js"></script>
+    @RenderSection("Scripts", required: false)
+</body>
+</html>

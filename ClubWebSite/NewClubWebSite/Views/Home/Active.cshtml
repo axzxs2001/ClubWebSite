@@ -1,0 +1,176 @@
+﻿@{
+    ViewData["Title"] = "报名";
+}
+@section css
+{
+    <style>
+        .col-md-12, .col-md-6, .col-md-5 {
+            font-size: 1.6em;
+            margin-top: 5px;
+        }
+
+        .col-md-8 {
+            position: relative;
+        }
+
+        .title-css {
+            font-size: 1em;
+            vertical-align: middle;
+            height: 40px;
+            line-height: 40px;
+        }
+
+            .title-css span {
+                display: block;
+                float: right;
+                position: relative;
+                right: 30px;
+                background-color: transparent;
+            }
+
+        .mark {
+            color: red;
+            font-size: 1.6em;
+            background-color: white;
+        }
+
+        .row {
+            margin-top: 10px
+        }
+        [v-cloak] {
+            display: none;
+        }
+    </style>
+}
+<div class="container" id="active-enroll" v-cloak>
+    <div class="row">
+        <div class="col-md-12">
+            <img v-bind:src="active.Logo" width="100%" />
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-12">
+            <input type="hidden" value="@(ViewData["id"])" id="activeid" />
+            活动名称：<b>{{active.Name}}</b>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-12">
+         
+            活动地址：<span>{{active.Address}}</span>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-6">
+          
+            开始时间：<span>{{active.BeginTime}}</span>
+        </div>
+
+        <div class="col-md-6">
+
+            结束时间：<span>{{active.EndTime}}</span>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-6">   
+            活动人数：<span>{{active.PeopleNumber}}</span>
+        </div>
+
+        <div class="col-md-6">
+            报名人数：<b>{{count}}</b>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-12">
+     
+            详细内容：
+            <div v-html="active.Content" style="padding:10px"></div>
+        </div>
+    </div>
+    <hr />
+    <div class="row" v-if="active.IsEnroll">
+        <div class="col-md-6"> 
+            <div class="row">
+                <div class="col-md-4 title-css">活动名称：<span class="mark">*</span></div>
+                <div class="col-md-8">
+                    <input class="form-control input-lg input-text" placeholder="姓名" id="name" name="name" />
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-4 title-css">手机号码：<span class="mark">*</span></div>
+                <div class="col-md-8">
+                    <input type="tel" class="form-control input-lg input-text" placeholder="手机号码" id="contact" name="contact" />
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-4 title-css">邮箱地址：<span class="mark">*</span></div>
+                <div class="col-md-8">
+                    <input type="email" class="form-control input-lg input-text" placeholder="邮箱地址" id="email" name="email" />
+                </div>
+            </div>
+            <div class="row" style="text-align:center;margin-top:20px;">
+                <button class="btn btn-lg btn-success" style="margin:20px;width:300px;font-size:1em;" onclick="enroll()">
+                    <span class="glyphicon glyphicon-ok" aria-hidden="true"></span>&nbsp;&nbsp;报&nbsp;名
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+@section scripts{
+    <script>
+        //获取活动信息
+        $.get("/getactive", { id: $("#activeid").val() }, function (result) {
+            new Vue({
+                el: "#active-enroll",
+                data: { active: result.Active, count: result.EnrollCount }
+            })
+        })
+        //报名
+        function enroll() {
+            if (validate()) {
+                $.post("/enroll", { ActiveID: $("#activeid").val(), Name: $("#name").val(), Email: $("#email").val(), Contact: $("#contact").val() }, function (result) {
+                    if (result.BackResult) {
+                        alert("报名成功！");
+                    }
+                    else {
+                        alert(result.Message);
+                    }
+                })
+            }
+        }
+
+        function validate() {
+            if ($("#name").val() == "") {
+                alert("姓名不能为空！")
+                return false;
+            }
+            if ($("#contact").val() == "") {
+                alert("手机号码不能为空！")
+                return false;
+            } else {
+                if (!(/^1(3|4|5|7|8)\d{9}$/.test($("#contact").val()))) {
+                    alert("手机号码有误，请重填");
+                    $("#contact").select();
+                    $("#contact").focus();
+                    return false;
+                }
+            }
+            if ($("#email").val() == "") {
+                alert("邮箱不能为空！")
+                return false;
+            } else {
+                var  myreg  =  /^([a-zA-Z0-9]+[_|\_|\.]?)*[a-zA-Z0-9]+@@([a-zA-Z0-9]+[_|\_|\.]?)*[a-zA-Z0-9]+\.[a-zA-Z]{2,3}$/;
+                if (!myreg.test($("#email").val()))           {
+                                   alert('提示\n\n请输入有效的E_mail！');
+                                   $("#email").select();
+                                   $("#email").focus();
+                                   return  false;
+                          }
+
+
+            }
+            return true;
+        }
+    </script>
+}
+

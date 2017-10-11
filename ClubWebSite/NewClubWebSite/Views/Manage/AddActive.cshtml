@@ -1,0 +1,319 @@
+﻿@{
+    ViewData["Title"] = "发布活动";
+}
+@section css{
+    <link href="~/lib/bootstrap-datepicker/dist/css/bootstrap-datepicker.css" rel="stylesheet" />
+    <link href="~/lib/bootstrap-datepicker/dist/css/bootstrap-datepicker3.css" rel="stylesheet" />
+    <style>
+        .title-css {
+            font-size: 1.6em;
+            vertical-align: middle;
+        }
+
+        .row {
+            margin-top: 10px
+        }
+
+        .col-md-2 {
+            text-align: right;
+        }
+
+        .mark {
+            color: red;
+            font-size: 1.6em;
+            background-color: white;
+        }
+
+        .title-css span {
+            display: block;
+            float: right;
+            position: relative;
+            right: 10px;
+            top:-8px;
+            background-color:transparent;
+        }
+    </style>
+}
+<div class="container">
+    <div class="row">
+        <div style="margin-bottom:-10px;margin-left:30px">
+            <img src="~/images/active.png" width="150" height="60" />
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-2 title-css">活动名称：<span class="mark">*</span></div>
+        <div class="col-md-10">
+            <input class="form-control input-lg input-text" placeholder="活动名称" id="activename" name="activename" />
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-2 title-css">活动地址：<span class="mark">*</span></div>
+        <div class="col-md-10">
+            <input class="form-control input-lg input-text" placeholder="活动地址" id="activeaddress" name="activeaddress" />
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-2 title-css">开始日期：<span class="mark">*</span></div>
+        <div class="col-md-4" id="sandbox-container">
+
+            <div class="input-group date">
+                <input type="text" class="form-control  input-lg" id="begindate" name="begindate" placeholder="开始时间" value="">
+                <span class="input-group-addon">
+                    <i class="glyphicon glyphicon-th"></i>
+                </span>
+            </div>
+        </div>
+        <div class="col-md-2 title-css">开始时间：<span class="mark">*</span></div>
+        <div class="col-md-4 title-css">
+            <select class="form-control  input-lg" name="begintime" id="begintime">
+                <option selected value="05:00:00">05:00:00</option>
+                <option value="05:30:00">05:30:00</option>
+                <option value="06:00:00">06:00:00</option>
+                <option value="06:30:00">06:30:00</option>
+                <option value="07:00:00">07:00:00</option>
+                <option value="07:30:00">07:30:00</option>
+                <option value="08:00:00">08:00:00</option>
+                <option value="08:30:00">08:30:00</option>
+                <option value="09:00:00">09:00:00</option>
+                <option value="09:30:00">09:30:00</option>
+                <option value="10:00:00">10:00:00</option>
+                <option value="10:30:00">10:30:00</option>
+                <option value="11:00:00">11:00:00</option>
+                <option value="11:30:00">11:30:00</option>
+                <option value="12:00:00">12:00:00</option>
+                <option value="12:30:00">12:30:00</option>
+                <option value="13:00:00">13:00:00</option>
+                <option value="13:30:00">13:30:00</option>
+                <option value="14:00:00">14:00:00</option>
+                <option value="14:30:00">14:30:00</option>
+                <option value="15:00:00">15:00:00</option>
+                <option value="15:30:00">15:30:00</option>
+                <option value="16:00:00">16:00:00</option>
+                <option value="16:30:00">16:30:00</option>
+                <option value="17:00:00">17:00:00</option>
+                <option value="17:30:00">17:30:00</option>
+                <option value="18:00:00">18:00:00</option>
+                <option value="18:30:00">18:30:00</option>
+                <option value="19:00:00">19:00:00</option>
+                <option value="19:30:00">19:30:00</option>
+                <option value="20:00:00">20:00:00</option>
+                <option value="20:30:00">20:30:00</option>
+                <option value="21:00:00">21:00:00</option>
+                <option value="21:30:00">21:30:00</option>
+                <option value="22:00:00">22:00:00</option>
+                <option value="22:30:00">22:30:00</option>
+                <option value="23:00:00">23:00:00</option>
+                <option value="23:30:00">23:30:00</option>
+            </select>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-2 title-css">结束日期：<span class="mark">*</span></div>
+        <div class="col-md-4" id="sandbox-container">
+            <div class="input-group date">
+                <input type="text" class="form-control  input-lg  rq" id="enddate" name="enddate" placeholder="结束日期" value="">
+                <span class="input-group-addon">
+                    <i class="glyphicon glyphicon-th"></i>
+                </span>
+            </div>
+        </div>
+        <div class="col-md-2 title-css">结束时间：<span class="mark">*</span></div>
+        <div class="col-md-4 title-css">
+            <select class="form-control  input-lg" id="endtime" name="endtime">
+                <option selected value="05:00:00">05:00:00</option>  
+                <option value="05:30:00">05:30:00</option>
+                <option value="06:00:00">06:00:00</option>
+                <option value="06:30:00">06:30:00</option>
+                <option value="07:00:00">07:00:00</option>
+                <option value="07:30:00">07:30:00</option>
+                <option value="08:00:00">08:00:00</option>
+                <option value="08:30:00">08:30:00</option>
+                <option value="09:00:00">09:00:00</option>
+                <option value="09:30:00">09:30:00</option>
+                <option value="10:00:00">10:00:00</option>
+                <option value="10:30:00">10:30:00</option>
+                <option value="11:00:00">11:00:00</option>
+                <option value="11:30:00">11:30:00</option>
+                <option value="12:00:00">12:00:00</option>
+                <option value="12:30:00">12:30:00</option>
+                <option value="13:00:00">13:00:00</option>
+                <option value="13:30:00">13:30:00</option>
+                <option value="14:00:00">14:00:00</option>
+                <option value="14:30:00">14:30:00</option>
+                <option value="15:00:00">15:00:00</option>
+                <option value="15:30:00">15:30:00</option>
+                <option value="16:00:00">16:00:00</option>
+                <option value="16:30:00">16:30:00</option>
+                <option value="17:00:00">17:00:00</option>
+                <option value="17:30:00">17:30:00</option>
+                <option value="18:00:00">18:00:00</option>
+                <option value="18:30:00">18:30:00</option>
+                <option value="19:00:00">19:00:00</option>
+                <option value="19:30:00">19:30:00</option>
+                <option value="20:00:00">20:00:00</option>
+                <option value="20:30:00">20:30:00</option>
+                <option value="21:00:00">21:00:00</option>
+                <option value="21:30:00">21:30:00</option>
+                <option value="22:00:00">22:00:00</option>
+                <option value="22:30:00">22:30:00</option>
+                <option value="23:00:00">23:00:00</option>
+                <option value="23:30:00">23:30:00</option>
+            </select>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-2 title-css">上传海报：<span class="mark">*</span></div>
+        <div class="col-md-6">        
+            <img id="logo" src="~/images/haibao.jpg" height="320" width="540" />
+        </div>
+        <div class="col-md-4">
+            <div class="row">
+                <form method="post" id="form" enctype="multipart/form-data">
+                    <input id="logofile" onchange="upload()" name="logofile" type="file" style="display:none" />
+                </form>
+                <button class="btn btn-lg btn-success" style="margin-left:20px;width:300px;font-size:2em;" onclick="openfile()">
+                    <span class="glyphicon glyphicon-open" aria-hidden="true"></span>&nbsp;&nbsp;上&nbsp;传
+                </button>
+                <input name="logoPath" id="logoPath" type="hidden" />
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-2 title-css">活动人数：<span class="mark">&nbsp;</span></div>
+        <div class="col-md-10">
+            <input type="number" class="form-control input-lg input-text" placeholder="活动人数" id="peoplecount" name="peoplecount" />
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-2 title-css">详细内容：<span class="mark">*</span></div>
+        <div class="col-md-10">
+            <script id="editor" type="text/plain" style="height:480px;">
+            </script>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-2 title-css">是否报名：<span class="mark">&nbsp;</span></div>
+        <div class="col-md-10">
+            <input type="checkbox" value="true" class="form-control" style="width:30px" id="isenroll" name="isenroll" />
+        </div>
+    </div>
+
+    <div class="row" style="text-align:center;margin-top:20px;">
+        <button class="btn btn-lg btn-success" style="margin-left:20px;width:300px;font-size:2em;" onclick="sava()">
+            <span class="glyphicon glyphicon-ok" aria-hidden="true"></span>&nbsp;&nbsp;发&nbsp;布
+        </button>
+    </div>
+
+</div>
+
+@section scripts{
+
+    <script type="text/javascript" charset="utf-8" src="~/lib/ueditor/ueditor.config.js"></script>
+    <script type="text/javascript" charset="utf-8" src="~/lib/ueditor/ueditor.all.js"> </script>
+    <script type="text/javascript" charset="utf-8" src="~/lib/ueditor/lang/zh-cn/zh-cn.js"></script>
+    <script src="~/lib/bootstrap-datepicker/dist/js/bootstrap-datepicker.js"></script>
+    <script src="~/lib/bootstrap-datepicker/dist/locales/bootstrap-datepicker.zh-CN.min.js"></script>
+    <script src="~/js/jquery.form.js"></script>
+    <script>
+        $(function () {
+            createEditor();
+
+        });
+        function createEditor() {
+            UE.getEditor('editor').addListener('ready', function (editor) {
+                //加载内容
+            });
+        }
+
+        //日历控件初始化
+        $('#sandbox-container .input-group.date').datepicker({
+            pickTime: false,
+            language: 'zh-CN', //汉化
+            autoclose: true, //选择日期后自动关闭
+            todayBtn: "linked",
+            todayHighlight: true
+        });
+
+        function validate() {
+            if ($("#activename").val() == "") {
+                alert("活动名称不能为空！")
+                return false;
+            }
+            if ($("#activeaddress").val() == "") {
+                alert("活动地址不能为空！")
+                return false;
+            }
+            if ($("#begindate").val() == "") {
+                alert("开始日期不能为空！")
+                return false;
+            }
+            if ($("#enddate").val() == "") {
+                alert("结束日期不能为空！")
+                return false;
+            }
+            if ($("#logoPath").val() == "") {
+                alert("上传海不能为空！")
+                return false;
+            }
+            if (!UE.getEditor('editor').hasContents()) {
+                alert("详细内容不能为空！")
+                return false;
+            }
+            return true;
+        }
+        //保存活动
+        function sava() {
+            //验证
+            if (validate()) {
+                var isenroll = document.getElementById("isenroll").checked;
+                $.post("addactive", {
+                    activename: $("#activename").val(),
+                    activeaddress: $("#activeaddress").val(),
+                    begindate: $("#begindate").val(),
+                    begintime: $("#begintime").val(),
+                    enddate: $("#enddate").val(),
+                    endtime: $("#endtime").val(),
+                    content: UE.getEditor('editor').getContent(),
+                    isEnroll: isenroll,
+                    logoPath: $("#logoPath").val(),
+                    peopleNumber: $("#peoplecount").val()
+
+                }, function (result) {
+
+                    if (result) {
+                        alert("添加成功！")
+                        window.location.href = "/addactive";
+                    }
+                    else {
+                        alert("添加失败！")
+                    }
+                })
+            }
+        }
+        //打开上传控件
+        function openfile() {
+            $("#logofile").click();
+        }
+        //上传
+        function upload() {
+            $("#form").ajaxSubmit({
+                type: "POST",//提交类型 
+                url: "/uploadimage",//请求地址  
+                success: function (result) {//请求成功后的函数  
+                    $("#logo").attr("src", result);
+                    $("#logoPath").val(result);
+                },
+                error: function (data) { console.log(data); },//请求失败的函数  
+                async: true
+            });
+
+        }
+
+    </script>
+}
+
+
+
+
+
