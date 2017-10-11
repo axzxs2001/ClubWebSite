@@ -9,6 +9,7 @@ using System.Runtime.Serialization.Formatters.Binary;
 namespace NewClubWebSite.Model.DataModel
 {
 
+    [Serializable]
     public class ClubWebSiteDbContext
     {
         string _dataFile;
@@ -28,7 +29,7 @@ namespace NewClubWebSite.Model.DataModel
         {
             try
             {
-                var writer = new FileStream(_dataFile, FileMode.CreateNew, FileAccess.Write);
+                var writer = new FileStream(_dataFile, FileMode.Create, FileAccess.Write);
                 var formater = new BinaryFormatter();
                 formater.Serialize(writer, this);
                 writer.Close();

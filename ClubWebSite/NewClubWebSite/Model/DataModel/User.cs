@@ -10,13 +10,12 @@ namespace NewClubWebSite.Model.DataModel
     /// <summary>
     /// 用户实体类
     /// </summary>
+    [Serializable]
     public class User
     {
         /// <summary>
         /// ID
         /// </summary>
-        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-        [Key]
         public int ID
         { get; set; }
         /// <summary>

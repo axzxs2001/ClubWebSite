@@ -10,13 +10,13 @@ namespace NewClubWebSite.Model.DataModel
     /// <summary>
     /// 报名实体
     /// </summary>
+    [Serializable]
     public class Enroll
     {
         /// <summary>
         /// ID
         /// </summary>
-        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-        [Key]
+    
         public int ID
         { get; set; }
         /// <summary>

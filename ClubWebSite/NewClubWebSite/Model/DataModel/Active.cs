@@ -10,13 +10,13 @@ namespace NewClubWebSite.Model.DataModel
     /// <summary>
     /// 活动实体
     /// </summary>
+    [Serializable]
     public class Active 
     {
         /// <summary>
         /// ID
         /// </summary>
-        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-        [Key]
+     
         public int ID
         { get; set; }
         /// <summary>

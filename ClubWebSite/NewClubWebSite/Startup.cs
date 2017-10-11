@@ -29,15 +29,13 @@ namespace NewClubWebSite
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddOptions();
-            //添加数据操作
-            var connection =string.Format( Configuration.GetConnectionString("DefaultConnection"),System.IO.Directory.GetCurrentDirectory());
-            Console.WriteLine($"Connecting{connection}");
+         
             //添加数据实体
-            //services.AddDbContext<ClubWebSiteDbContext>(options =>options.UseSqlite(connection));
+            services.AddTransient(typeof(ClubWebSiteDbContext));
 
 
             //注入活动仓储类
-          services.AddTransient<IActiveResitory, ActiveResitory>();
+           services.AddTransient<IActiveResitory, ActiveResitory>();
             //注入用户仓储类
             services.AddTransient<IUserResitory, UserResitory>();
 

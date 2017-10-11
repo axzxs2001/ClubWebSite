@@ -1,0 +1,5 @@
+﻿1、发布：dotnet publish -r linux-ram
+2、复制bin\Debug\netcoreapp2.0\linux-arm\publish到树莓派上
+3、在终端进入publish文件夹内
+4、设置权限：chmod 777 ./NewClubWebSite
+5、启动网站：./NewClubWebSite

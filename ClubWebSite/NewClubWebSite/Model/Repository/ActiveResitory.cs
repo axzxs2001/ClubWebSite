@@ -31,9 +31,26 @@ namespace NewClubWebSite.Model.Repository
         /// <returns></returns>
         public bool AddActive(Active active)
         {
+            active.ID = GetMaxID();
             _dbContext.Actives.Add(active);
             var result = _dbContext.SaveChanges();
             return result > 0;
+        }
+        /// <summary>
+        /// 获取活动最大ID
+        /// </summary>
+        /// <returns></returns>
+        int GetMaxID()
+        {
+            var maxid = 0;
+            foreach(var active in _dbContext.Actives)
+            {
+               if(active.ID>maxid)
+                {
+                    maxid = active.ID;
+                }
+            }
+            return maxid+1;
         }
         /// <summary>
         /// 获取页数和总页数
@@ -107,6 +124,7 @@ namespace NewClubWebSite.Model.Repository
             if (count == 0)
             {
                 enroll.CreateTime = DateTime.Now;
+                enroll.ID = GetEnrollMaxID();
                 _dbContext.Enrolls.Add(enroll);
                 var result = _dbContext.SaveChanges();
                 backResult = result > 0 ? true : false;
@@ -119,7 +137,22 @@ namespace NewClubWebSite.Model.Repository
             return (backResult, message);
 
         }
-
+        /// <summary>
+        /// 获取报名信息最大ID
+        /// </summary>
+        /// <returns></returns>
+        int GetEnrollMaxID()
+        {
+            var maxid = 0;
+            foreach (var enroll in _dbContext.Enrolls)
+            {
+                if (enroll.ID > maxid)
+                {
+                    maxid = enroll.ID;
+                }
+            }
+            return maxid + 1;
+        }
         /// <summary>
         /// 按照活动ID查询报表的总数
         /// </summary>
